@@ -1,10 +1,6 @@
 
 # The Node.js for Mobile Apps React Native plugin
 
-## Reporting Issues
-
-We have a [central repo](https://github.com/janeasystems/nodejs-mobile/issues) where we manage all the issues related to Node.js for Mobile Apps, including issues specific to this plugin. Please, report your issue [there](https://github.com/janeasystems/nodejs-mobile/issues).
-
 ## Installation
 
 `$ npm install nodejs-mobile-react-native --save`
@@ -67,7 +63,7 @@ Node modules can be added to the project using `npm install` inside `nodejs-asse
 
 On Linux and macOS, there is support for building modules that contain native code.
 
-The plugin automatically detects native modules inside your `nodejs-project` folder by searching for `.gyp` files. It's recommended to have the build prerequisites mentioned in `nodejs-mobile` for [Android](https://github.com/janeasystems/nodejs-mobile#prerequisites-to-build-the-android-library-on-linux-ubuntudebian) and [iOS](https://github.com/janeasystems/nodejs-mobile#prerequisites-to-build-the-ios-framework-library-on-macos). For Android it's also recommended that you set the `ANDROID_NDK_HOME` environment variable in your system.
+The plugin automatically detects native modules inside your `nodejs-project` folder by searching for `.gyp` files. It's recommended to have the build prerequisites mentioned in `nodejs-mobile` for [Android](https://github.com/nodejs-mobile/nodejs-mobile#prerequisites-to-build-the-android-library-on-linux-ubuntudebian) and [iOS](https://github.com/nodejs-mobile/nodejs-mobile#prerequisites-to-build-the-ios-framework-library-on-macos). For Android it's also recommended that you set the `ANDROID_NDK_HOME` environment variable in your system.
 
 Building native modules for Android can take a long time, since it depends on building a standalone NDK toolchain for each required architecture. The resulting `.node` binaries are then included in the final application in a separate asset path for each architecture and the correct one will be chosen at runtime.
 
@@ -200,7 +196,7 @@ The following methods can be called from the Node javascript code through the `r
 
 > `rn_bridge.channel.send(...msg)` is equivalent to `rn_bridge.channel.post('message', ...msg)`. It is maintained for backward compatibility purposes.
 
-> The `rn_bridge.channel` object inherits from [Node's `EventEmitter` class](https://github.com/janeasystems/nodejs-mobile/blob/9e90dd8c14fce5b047aa16d00e22a8ef44222a99/lib/events.js), with `emit` removed and `post` and `send` added.
+> The `rn_bridge.channel` object inherits from [Node's `EventEmitter` class](https://github.com/nodejs-mobile/nodejs-mobile/blob/9e90dd8c14fce5b047aa16d00e22a8ef44222a99/lib/events.js), with `emit` removed and `post` and `send` added.
 
 ### rn_bridge.channel.on(event, callback)
 
@@ -334,4 +330,4 @@ module.exports = {
 
 ## Changelog
 
-Releases are documented in [CHANGELOG.md](https://github.com/janeasystems/nodejs-mobile-react-native/blob/unstable/CHANGELOG.md)
+Releases are documented in [CHANGELOG.md](https://github.com/nodejs-mobile/nodejs-mobile-react-native/blob/unstable/CHANGELOG.md)

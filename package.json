@@ -18,10 +18,10 @@
   "homepage": "https://code.janeasystems.com/nodejs-mobile",
   "repository": {
     "type": "git",
-    "url": "https://github.com/janeasystems/nodejs-mobile-react-native"
+    "url": "https://github.com/nodejs-mobile/nodejs-mobile-react-native"
   },
   "bugs": {
-    "url": "https://github.com/janeasystems/nodejs-mobile/issues"
+    "url": "https://github.com/nodejs-mobile/nodejs-mobile/issues"
   },
   "peerDependencies": {
     "react-native": ">=0.60.0"
