@@ -6,6 +6,7 @@
 </tr>
 <tr>
 <td>
+<a href="#0.6.3">0.6.3</a><br/>
 <a href="#0.6.2">0.6.2</a><br/>
 <a href="#0.6.1">0.6.1</a><br/>
 <a href="#0.6.0">0.6.0</a><br/>
@@ -29,8 +30,23 @@
 </tr>
 </table>
 
+<a id="0.6.3"></a>
+## 2021-10-26, Version 0.6.2 (Current)
+
+### Notable Changes
+
+* Update `nodejs-mobile` binaries to `v0.3.3`, which fixes a crash on Android 11 related to network interfaces
+* Support React Native 0.64.x and above
+
+### Commits
+
+* [[`91206f4`](https://github.com/nodejs-mobile/nodejs-mobile-react-native/commit/91206f4c0675907798b48394dc375482fd62f600)] - core: update nodejs-mobile v0.3.3 (Andre Staltz)
+* [[`8d2cb35`](https://github.com/nodejs-mobile/nodejs-mobile-react-native/commit/8d2cb350e6267b4c15a66e4f6ab35b9507616ed2)] - android: use prebuilt toolchain for native modules (Gregor MacLennan)
+* [[`2b57062`](https://github.com/nodejs-mobile/nodejs-mobile-react-native/commit/2b5706234e8a7a8e70857193c542d8ffcb641c7c)] - plugin: support react-native 0.64 (Andre Staltz)
+* [[`1366db0`](https://github.com/nodejs-mobile/nodejs-mobile-react-native/commit/1366db07162798552e1fba3fe3168cf61a365749)] - plugin: update repo metadata for new org (Andre Staltz)
+
 <a id="0.6.2"></a>
-## 2020-11-02, Version 0.6.2 (Current)
+## 2020-11-02, Version 0.6.2
 
 ### Notable Changes
 
