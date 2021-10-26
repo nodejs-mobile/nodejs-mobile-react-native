@@ -1,6 +1,6 @@
 
 import { NativeModules, NativeAppEventEmitter } from 'react-native';
-var EventEmitter = require('react-native/Libraries/vendor/emitter/EventEmitter');
+var EventEmitter = require('react-native/Libraries/vendor/emitter/EventEmitter').default;
 
 const EVENT_CHANNEL = '_EVENTS_';
 

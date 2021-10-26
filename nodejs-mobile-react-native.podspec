@@ -20,5 +20,5 @@ Pod::Spec.new do |s|
   s.user_target_xcconfig = { 'ENABLE_BITCODE' => 'NO' }
   s.ios.vendored_frameworks = 'ios/NodeMobile.framework'
   s.static_framework = true
-  s.dependency 'React'
+  s.dependency 'React-Core'
 end
