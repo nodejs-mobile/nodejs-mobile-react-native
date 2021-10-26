@@ -31,7 +31,7 @@
 </table>
 
 <a id="0.6.3"></a>
-## 2021-10-26, Version 0.6.2 (Current)
+## 2021-10-26, Version 0.6.3 (Current)
 
 ### Notable Changes
 
