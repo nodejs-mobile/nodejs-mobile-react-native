@@ -18,7 +18,7 @@
                  'host_arch': 'x64',
                  'icu_small': 'false',
                  'is_debug': 0,
-                 'llvm_version': '11.0',
+                 'llvm_version': '12.0',
                  'napi_build_version': '7',
                  'node_byteorder': 'little',
                  'node_debug_lib': 'false',
