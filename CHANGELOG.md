@@ -6,6 +6,7 @@
 </tr>
 <tr>
 <td>
+<a href="#0.6.4">0.6.4</a><br/>
 <a href="#0.6.3">0.6.3</a><br/>
 <a href="#0.6.2">0.6.2</a><br/>
 <a href="#0.6.1">0.6.1</a><br/>
@@ -30,8 +31,20 @@
 </tr>
 </table>
 
+<a id="0.6.4"></a>
+## 2021-12-16, Version 0.6.4 (Current)
+
+### Notable Changes
+
+* Support using patch-package on packages with symlinks
+
+### Commits
+
+* [[`934c4f7`](https://github.com/nodejs-mobile/nodejs-mobile-react-native/commit/934c4f7558f8cfac9b0f96298c4d3f68d4ef7572)] - plugin: use lstatSync instead of statSync (Jpoliachik)
+
+
 <a id="0.6.3"></a>
-## 2021-10-26, Version 0.6.3 (Current)
+## 2021-10-26, Version 0.6.3
 
 ### Notable Changes
 
