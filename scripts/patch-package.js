@@ -30,7 +30,7 @@ function visitPackageJSON(folderPath)
   for (var i in files) {
     let name = files[i];
     let filePath = path.join(folderPath, files[i]);
-    if(fs.statSync(filePath).isDirectory()) {
+    if (fs.lstatSync(filePath).isDirectory()) {
       visitPackageJSON(filePath);
     } else {
       if (name === 'package.json') {
