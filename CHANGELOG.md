@@ -6,6 +6,7 @@
 </tr>
 <tr>
 <td>
+<a href="#0.7.0">0.7.0</a><br/>
 <a href="#0.6.4">0.6.4</a><br/>
 <a href="#0.6.3">0.6.3</a><br/>
 <a href="#0.6.2">0.6.2</a><br/>
@@ -31,8 +32,20 @@
 </tr>
 </table>
 
+<a id="0.7.0"></a>
+## 2022-02-01, Version 0.7.0 (Current)
+
+### Notable Changes
+
+* Support Android Gradle plugin version 4
+
+### Commits
+
+* [[`9f0300d`](https://github.com/nodejs-mobile/nodejs-mobile-react-native/commit/9f0300ddbf4de9c34e6f2ddb05200f9d37fcc374)] - android: support Android Gradle plugin v4 (gmaclennan)
+
+
 <a id="0.6.4"></a>
-## 2021-12-16, Version 0.6.4 (Current)
+## 2021-12-16, Version 0.6.4
 
 ### Notable Changes
 
