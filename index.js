@@ -88,12 +88,12 @@ const start=function(mainFileName, options) {
   RNNodeJsMobile.startNodeProject(mainFileName, options);
 };
 
-const startWithArgs=function(mainFileName, args, options) {
-  if (typeof mainFileName !== 'string') {
-    throw new Error('nodejs-mobile-react-native\'s start expects to receive the main .js entrypoint filename, e.g.: nodejs.start("main.js");');
+const startWithArgs=function(command, options) {
+  if (typeof command !== 'string') {
+    throw new Error('nodejs-mobile-react-native\'s start expects to receive the main .js entrypoint filename with optional arguments, e.g.: nodejs.start("main.js -c custom");');
   }
   options = options || {};
-  RNNodeJsMobile.startNodeProjectWithArgs(mainFileName, options, args);
+  RNNodeJsMobile.startNodeProjectWithArgs(command, options);
 };
 
 const startWithScript=function(script, options) {
@@ -126,6 +126,7 @@ registerChannel(eventChannel);
 
 const export_object = {
   start: start,
+  startWithArgs: startWithArgs,
   startWithScript: startWithScript,
   channel: eventChannel
 };

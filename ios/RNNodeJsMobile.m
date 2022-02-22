@@ -101,22 +101,29 @@ RCT_EXPORT_METHOD(sendMessage:(NSString *)channelName:(NSString *)message)
   [[NodeRunner sharedInstance] startEngineWithArguments:nodeArguments:nodePath];
 }
 
--(void)callStartNodeProjectWithArgs:(NSDictionary *)dict
+-(void)callStartNodeProjectWithArgs:(NSString *)input
 {
-  NSString* srcPath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@/%@", NODEJS_PROJECT_RESOURCE_PATH, dict[@"mainFileName"]] ofType:@""];
-  NSArray* nodeArguments = nil;
+  NSArray* command = [input componentsSeparatedByString: @" "];
+  NSString* script = [command objectAtIndex:0];
+
+  NSMutableArray* args = [command mutableCopy];
+  [args removeObject:[args objectAtIndex:0]];
+
+  NSString* srcPath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@/%@", NODEJS_PROJECT_RESOURCE_PATH, script] ofType:@""];
+
+  NSMutableArray* nodeArguments = nil;
 
   NSString* dlopenoverridePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@/%@", NODEJS_PROJECT_RESOURCE_PATH, NODEJS_DLOPEN_OVERRIDE_FILENAME] ofType:@""];
   // Check if the file to override dlopen lookup exists, for loading native modules from the Frameworks.
   if(!dlopenoverridePath)
   {
-    nodeArguments = [NSArray arrayWithObjects:
+    nodeArguments = [NSMutableArray arrayWithObjects:
                               @"node",
                               srcPath,
-                              ];
-    [nodeArguments addObjectsFromArray:dict[@"args"]];
-    [nodeArguments addObject:nil];
+                              nil
+                    ];
 
+    [nodeArguments addObjectsFromArray:args];
   } else {
     nodeArguments = [NSArray arrayWithObjects:
                               @"node",
@@ -124,7 +131,7 @@ RCT_EXPORT_METHOD(sendMessage:(NSString *)channelName:(NSString *)message)
                               dlopenoverridePath,
                               srcPath,
                               nil
-                              ];
+                    ];
   }
   [[NodeRunner sharedInstance] startEngineWithArguments:nodeArguments:nodePath];
 }

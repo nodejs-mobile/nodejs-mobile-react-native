@@ -190,11 +190,25 @@ public class RNNodeJsMobileModule extends ReactContextBaseJavaModule implements 
   }
 
   @ReactMethod
-  public void startNodeProjectWithArgs(final String mainFileName, final String... args, ReadableMap options) throws Exception {
+  public void startNodeProjectWithArgs(final String input, ReadableMap options) throws Exception {
     // A New module instance may have been created due to hot reload.
     _instance = this;
     if(!_startedNodeAlready) {
       _startedNodeAlready = true;
+
+      List<String> args = new ArrayList<String>(Arrays.asList(input.split(" ")));
+      
+      String absoluteScriptPath = nodeJsProjectPath + "/" + args.get(0);
+
+      // Remove script file name from arguments list
+      args.remove(0);
+
+      final List<String> command = new ArrayList<String>();
+
+      command.add("node");
+      command.add(absoluteScriptPath);
+
+      command.addAll(args);
 
       final boolean redirectOutputToLogcat = extractRedirectOutputToLogcatOption(options);
 
@@ -202,10 +216,8 @@ public class RNNodeJsMobileModule extends ReactContextBaseJavaModule implements 
         @Override
         public void run() {
           waitForInit();
-          startNodeWithArguments(new String[]{"node",
-            nodeJsProjectPath + "/" + mainFileName,
-            args
-            },
+          startNodeWithArguments(
+            command.toArray(new String[0]),
             nodeJsProjectPath + ":" + builtinModulesPath,
             redirectOutputToLogcat
           );
