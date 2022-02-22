@@ -7,6 +7,13 @@ declare module "nodejs-mobile-react-native" {
      */
     start: (scriptFileName: string, options?: StartupOptions) => void
     /**
+     * Starts the nodejs-mobile runtime thread with provided arguments
+     * @param scriptFileName
+     * @param options
+     * @param args
+     */
+    startWithArgs: (scriptFileName: string, options?: StartupOptions, ...args: string[]) => void
+    /**
      * Starts the nodejs-mobile runtime thread with a script body
      * @param scriptBody 
      * @param options 

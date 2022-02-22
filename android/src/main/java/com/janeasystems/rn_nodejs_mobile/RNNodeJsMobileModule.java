@@ -190,6 +190,31 @@ public class RNNodeJsMobileModule extends ReactContextBaseJavaModule implements 
   }
 
   @ReactMethod
+  public void startNodeProjectWithArgs(final String mainFileName, final String... args, ReadableMap options) throws Exception {
+    // A New module instance may have been created due to hot reload.
+    _instance = this;
+    if(!_startedNodeAlready) {
+      _startedNodeAlready = true;
+
+      final boolean redirectOutputToLogcat = extractRedirectOutputToLogcatOption(options);
+
+      new Thread(new Runnable() {
+        @Override
+        public void run() {
+          waitForInit();
+          startNodeWithArguments(new String[]{"node",
+            nodeJsProjectPath + "/" + mainFileName,
+            args
+            },
+            nodeJsProjectPath + ":" + builtinModulesPath,
+            redirectOutputToLogcat
+          );
+        }
+      }).start();
+    }
+  }
+
+  @ReactMethod
   public void sendMessage(String channel, String msg) {
     sendMessageToNodeChannel(channel, msg);
   }
