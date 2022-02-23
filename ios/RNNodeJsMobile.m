@@ -125,13 +125,15 @@ RCT_EXPORT_METHOD(sendMessage:(NSString *)channelName:(NSString *)message)
 
     [nodeArguments addObjectsFromArray:args];
   } else {
-    nodeArguments = [NSArray arrayWithObjects:
+    nodeArguments = [NSMutableArray arrayWithObjects:
                               @"node",
                               @"-r",
                               dlopenoverridePath,
                               srcPath,
                               nil
                     ];
+
+    [nodeArguments addObjectsFromArray:args];
   }
   [[NodeRunner sharedInstance] startEngineWithArguments:nodeArguments:nodePath];
 }
@@ -170,29 +172,16 @@ RCT_EXPORT_METHOD(startNodeProject:(NSString *)mainFileName options:(NSDictionar
   }
 }
 
-RCT_EXPORT_METHOD(startNodeProjectWithArgs:(NSString *)mainFileName options:(NSDictionary *)options, args:(NSString)args, ...)
+RCT_EXPORT_METHOD(startNodeProjectWithArgs:(NSString *)command options:(NSDictionary *)options)
 {
   if(![NodeRunner sharedInstance].startedNodeAlready)
   {
-    NSMutableArray * arguments = [NSMutableArray array];
-    if(args)
-    {
-      [arguments addObject:args];
-      id argument;
-      va_list argsList;
-      va_start(argsList, args);
-      while(argument = va_arg(argsList, NSString))
-      {
-        [arguments addObject:argument];
-      }
-      va_end(argsList);
-    }
     [NodeRunner sharedInstance].startedNodeAlready=true;
     NSThread* nodejsThread = nil;
     nodejsThread = [[NSThread alloc]
       initWithTarget:self
       selector:@selector(callStartNodeProjectWithArgs:)
-      object:@{@"mainFileName":@mainFileName,@"args":@arguments}
+      object:command
     ];
     // Set 2MB of stack space for the Node.js thread.
     [nodejsThread setStackSize:2*1024*1024];
