@@ -146,7 +146,7 @@ Starts the nodejs-mobile runtime thread with a file inside the `nodejs-project` 
 | command | <code>string</code> |
 | options | <code>[StartupOptions](#ReactNative.StartupOptions)</code>  |
 
-Starts the nodejs-mobile runtime thread with a file inside the `nodejs-project` directory and passes provided arguments down to it.
+Starts the nodejs-mobile runtime thread with a file inside the `nodejs-project` directory and passes provided arguments down to it. `command` should usually include the scriptFileName as the first argument, for example `command = 'main.js --insecure-http-parser --zero-fill-buffers'`.
 
 ### nodejs.startWithScript(scriptBody [, options])
 
