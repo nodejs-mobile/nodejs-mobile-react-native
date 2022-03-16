@@ -101,6 +101,42 @@ RCT_EXPORT_METHOD(sendMessage:(NSString *)channelName:(NSString *)message)
   [[NodeRunner sharedInstance] startEngineWithArguments:nodeArguments:nodePath];
 }
 
+-(void)callStartNodeProjectWithArgs:(NSString *)input
+{
+  NSArray* command = [input componentsSeparatedByString: @" "];
+  NSString* script = [command objectAtIndex:0];
+
+  NSMutableArray* args = [command mutableCopy];
+  [args removeObject:[args objectAtIndex:0]];
+
+  NSString* srcPath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@/%@", NODEJS_PROJECT_RESOURCE_PATH, script] ofType:@""];
+
+  NSMutableArray* nodeArguments = nil;
+
+  NSString* dlopenoverridePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@/%@", NODEJS_PROJECT_RESOURCE_PATH, NODEJS_DLOPEN_OVERRIDE_FILENAME] ofType:@""];
+  // Check if the file to override dlopen lookup exists, for loading native modules from the Frameworks.
+  if(!dlopenoverridePath)
+  {
+    nodeArguments = [NSMutableArray arrayWithObjects:
+                              @"node",
+                              srcPath,
+                              nil
+                    ];
+
+    [nodeArguments addObjectsFromArray:args];
+  } else {
+    nodeArguments = [NSMutableArray arrayWithObjects:
+                              @"node",
+                              @"-r",
+                              dlopenoverridePath,
+                              srcPath,
+                              nil
+                    ];
+
+    [nodeArguments addObjectsFromArray:args];
+  }
+  [[NodeRunner sharedInstance] startEngineWithArguments:nodeArguments:nodePath];
+}
 
 RCT_EXPORT_METHOD(startNodeWithScript:(NSString *)script options:(NSDictionary *)options)
 {
@@ -129,6 +165,23 @@ RCT_EXPORT_METHOD(startNodeProject:(NSString *)mainFileName options:(NSDictionar
       initWithTarget:self
       selector:@selector(callStartNodeProject:)
       object:mainFileName
+    ];
+    // Set 2MB of stack space for the Node.js thread.
+    [nodejsThread setStackSize:2*1024*1024];
+    [nodejsThread start];
+  }
+}
+
+RCT_EXPORT_METHOD(startNodeProjectWithArgs:(NSString *)command options:(NSDictionary *)options)
+{
+  if(![NodeRunner sharedInstance].startedNodeAlready)
+  {
+    [NodeRunner sharedInstance].startedNodeAlready=true;
+    NSThread* nodejsThread = nil;
+    nodejsThread = [[NSThread alloc]
+      initWithTarget:self
+      selector:@selector(callStartNodeProjectWithArgs:)
+      object:command
     ];
     // Set 2MB of stack space for the Node.js thread.
     [nodejsThread setStackSize:2*1024*1024];
