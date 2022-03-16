@@ -120,6 +120,7 @@ import nodejs from 'nodejs-mobile-react-native';
 ```
 
 - `nodejs.start`
+- `nodejs.startWithArgs`
 - `nodejs.startWithScript`
 - `nodejs.channel.addListener`
 - `nodejs.channel.post`
@@ -137,6 +138,15 @@ import nodejs from 'nodejs-mobile-react-native';
 | options | <code>[StartupOptions](#ReactNative.StartupOptions)</code>  |
 
 Starts the nodejs-mobile runtime thread with a file inside the `nodejs-project` directory.
+
+### nodejs.startWithArgs(command [, options])
+
+| Param | Type |
+| --- | --- |
+| command | <code>string</code> |
+| options | <code>[StartupOptions](#ReactNative.StartupOptions)</code>  |
+
+Starts the nodejs-mobile runtime thread with a file inside the `nodejs-project` directory and passes provided arguments down to it.
 
 ### nodejs.startWithScript(scriptBody [, options])
 
