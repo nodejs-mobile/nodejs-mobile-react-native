@@ -6,6 +6,7 @@
 </tr>
 <tr>
 <td>
+<a href="#0.8.0">0.8.0</a><br/>
 <a href="#0.7.0">0.7.0</a><br/>
 <a href="#0.6.4">0.6.4</a><br/>
 <a href="#0.6.3">0.6.3</a><br/>
@@ -32,8 +33,20 @@
 </tr>
 </table>
 
+<a id="0.8.0"></a>
+## 2022-03-16, Version 0.8.0 (Current)
+
+### Notable Changes
+
+* New JS API `startWithArgs(command[, options])`
+
+### Commits
+
+* [[`2edd052`](https://github.com/nodejs-mobile/nodejs-mobile-react-native/commit/2edd052e7a007edc917ee44b5130b24fda62a40e)] - plugin: new JS API startWithArgs() (@siepra)
+
+
 <a id="0.7.0"></a>
-## 2022-02-01, Version 0.7.0 (Current)
+## 2022-02-01, Version 0.7.0
 
 ### Notable Changes
 
