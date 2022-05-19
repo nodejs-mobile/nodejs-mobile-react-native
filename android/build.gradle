@@ -51,6 +51,8 @@ android {
     compileSdkVersion ((rootProject?.ext?.properties?.compileSdkVersion) ?: 23)
     buildToolsVersion ((rootProject?.ext?.properties?.buildToolsVersion) ?: "23.0.1")
 
+    ndkVersion project(":app").android.ndkVersion
+
     defaultConfig {
         minSdkVersion _nodeMinSdkVersion
         targetSdkVersion _nodeTargetSdkVersion
