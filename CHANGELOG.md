@@ -6,6 +6,7 @@
 </tr>
 <tr>
 <td>
+<a href="#0.8.1">0.8.1</a><br/>
 <a href="#0.8.0">0.8.0</a><br/>
 <a href="#0.7.0">0.7.0</a><br/>
 <a href="#0.6.4">0.6.4</a><br/>
@@ -33,8 +34,16 @@
 </tr>
 </table>
 
+<a id="0.8.1"></a>
+## 2022-05-19, Version 0.8.1 (Current)
+
+### Commits
+
+* [[`c2df7c5`](https://github.com/nodejs-mobile/nodejs-mobile-react-native/commit/c2df7c50119614cc8f4535b285cd27c457c80b1d)] - android: Get ndkVersion from main projects' gradle config
+
+
 <a id="0.8.0"></a>
-## 2022-03-16, Version 0.8.0 (Current)
+## 2022-03-16, Version 0.8.0
 
 ### Notable Changes
 
