@@ -9,6 +9,7 @@ var mkdirp = require('mkdirp');
 
 function hostPackageDir(file) {
   var pathComponents = file.split(path.sep);
+  console.log({pathComponents})
   var modulesDirIndex = pathComponents.lastIndexOf('node_modules');
   if (modulesDirIndex < 1) return undefined;
 
@@ -43,6 +44,11 @@ function installFiles(done) {
   var installTargetPackageName = process.env.npm_package_name;
   
   var source, target;
+
+  console.log({
+    fileInstallingPackagePath,
+    installTargetPackageName
+  })
   source = path.join(fileInstallingPackagePath, 'node_modules', installTargetPackageName, 'install','resources','nodejs-assets');
   target = fileInstallingPackagePath;
 
