@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		33AE3DEB1F7A9C150051C3C6 /* rn-bridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33AE3DEA1F7A9C150051C3C6 /* rn-bridge.cpp */; settings = {COMPILER_FLAGS = "-I$(SRCROOT)/libnode/include/node/"; }; };
 		33C4E1FF1F7979160047084D /* NodeRunner.mm in Sources */ = {isa = PBXBuildFile; fileRef = 33C4E1FE1F7979160047084D /* NodeRunner.mm */; };
-		5BCE3F852861F1C600A67BF4 /* NodeMobile.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BCE3F842861F1C600A67BF4 /* NodeMobile.xcframework */; };
+		5BCE3F872861F39A00A67BF4 /* NodeMobile.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BCE3F862861F39A00A67BF4 /* NodeMobile.xcframework */; };
 		B3E7B58A1CC2AC0600A0062D /* RNNodeJsMobile.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* RNNodeJsMobile.m */; };
 /* End PBXBuildFile section */
 
@@ -32,7 +32,7 @@
 		33AE3DEA1F7A9C150051C3C6 /* rn-bridge.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "rn-bridge.cpp"; sourceTree = "<group>"; };
 		33C4E1FD1F7978E90047084D /* NodeRunner.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NodeRunner.hpp; sourceTree = "<group>"; };
 		33C4E1FE1F7979160047084D /* NodeRunner.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = NodeRunner.mm; sourceTree = "<group>"; };
-		5BCE3F842861F1C600A67BF4 /* NodeMobile.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = NodeMobile.xcframework; path = ../../Documents/out_ios/NodeMobile.xcframework; sourceTree = "<group>"; };
+		5BCE3F862861F39A00A67BF4 /* NodeMobile.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = NodeMobile.xcframework; path = ../../Documents/out_ios/NodeMobile.xcframework; sourceTree = "<group>"; };
 		B3E7B5881CC2AC0600A0062D /* RNNodeJsMobile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNNodeJsMobile.h; sourceTree = "<group>"; };
 		B3E7B5891CC2AC0600A0062D /* RNNodeJsMobile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNNodeJsMobile.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -42,7 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5BCE3F852861F1C600A67BF4 /* NodeMobile.xcframework in Frameworks */,
+				5BCE3F872861F39A00A67BF4 /* NodeMobile.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,7 +60,7 @@
 		33C4E26E1F798D110047084D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5BCE3F842861F1C600A67BF4 /* NodeMobile.xcframework */,
+				5BCE3F862861F39A00A67BF4 /* NodeMobile.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
