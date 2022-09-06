@@ -6,6 +6,7 @@
 </tr>
 <tr>
 <td>
+<a href="#0.8.2">0.8.2</a><br/>
 <a href="#0.8.1">0.8.1</a><br/>
 <a href="#0.8.0">0.8.0</a><br/>
 <a href="#0.7.0">0.7.0</a><br/>
@@ -34,8 +35,16 @@
 </tr>
 </table>
 
+<a id="0.8.2"></a>
+## 2022-09-06, Version 0.8.2 (Current)
+
+### Commits
+
+* [[`2fa781d`](https://github.com/nodejs-mobile/nodejs-mobile-react-native/commit/2fa781d836aa794c6b3809db58bdf0f417859f01)] - plugin: support react-native 0.69 on Android
+
+
 <a id="0.8.1"></a>
-## 2022-05-19, Version 0.8.1 (Current)
+## 2022-05-19, Version 0.8.1
 
 ### Commits
 
