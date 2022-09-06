@@ -238,7 +238,7 @@ if ("1".equals(shouldRebuildNativeModules)) {
     GenerateNodeProjectAssetsLists.dependsOn "ApplyPatchScriptToModules"
 
     def nativeModulesABIs = android.defaultConfig.ndk.abiFilters;
-    if (nativeModulesABIs == null) {
+    if (!nativeModulesABIs) {
         // No abiFilter is defined for the build. Build native modules for eevery architecture.
         nativeModulesABIs = ["armeabi-v7a", "x86", "arm64-v8a", "x86_64"] as Set<String>;
     }
