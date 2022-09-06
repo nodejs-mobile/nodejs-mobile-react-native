@@ -41,6 +41,7 @@
 ### Commits
 
 * [[`2fa781d`](https://github.com/nodejs-mobile/nodejs-mobile-react-native/commit/2fa781d836aa794c6b3809db58bdf0f417859f01)] - plugin: support react-native 0.69 on Android
+* [[`c1e15d4`](https://github.com/nodejs-mobile/nodejs-mobile-react-native/commit/c1e15d40d19d3e356cc8dc3f1d1013f71214c3a5)] - Fix podspec source specification
 
 
 <a id="0.8.1"></a>
