@@ -6,6 +6,7 @@
 </tr>
 <tr>
 <td>
+<a href="#16.17.0">16.17.0</a><br/>
 <a href="#0.8.2">0.8.2</a><br/>
 <a href="#0.8.1">0.8.1</a><br/>
 <a href="#0.8.0">0.8.0</a><br/>
@@ -35,8 +36,17 @@
 </tr>
 </table>
 
+<a id="16.17.0"></a>
+## 2023-01-30, Version 16.17.0 (Current)
+
+### Notable Changes
+
+* Update `nodejs-mobile` binaries to `v16.17.0`
+* (Host) Node.js version 16 required when building native modules on Android and iOS
+
+
 <a id="0.8.2"></a>
-## 2022-09-06, Version 0.8.2 (Current)
+## 2022-09-06, Version 0.8.2
 
 ### Commits
 
