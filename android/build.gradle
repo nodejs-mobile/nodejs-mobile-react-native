@@ -14,6 +14,7 @@ apply plugin: 'com.android.library'
 def _nodeTargetSdkVersion = ((rootProject?.ext?.properties?.targetSdkVersion) ?: 22)
 def _nodeMinSdkVersion = ((rootProject?.ext?.properties?.minSdkVersion) ?: 16)
 def _compileNativeModulesSdkVersion = _nodeMinSdkVersion;
+def _nodeVersionRequired = 16
 if (_compileNativeModulesSdkVersion<21) {
     // 21 is the minimum sdk version Node is built with.
     _compileNativeModulesSdkVersion=21;
@@ -51,7 +52,7 @@ android {
     compileSdkVersion ((rootProject?.ext?.properties?.compileSdkVersion) ?: 23)
     buildToolsVersion ((rootProject?.ext?.properties?.buildToolsVersion) ?: "23.0.1")
 
-    ndkVersion project(":app").android.ndkVersion
+    ndkVersion ((rootProject?.ext?.ndkVersion) ?: "21.4.7075529")
 
     defaultConfig {
         minSdkVersion _nodeMinSdkVersion
@@ -238,7 +239,7 @@ if ("1".equals(shouldRebuildNativeModules)) {
     GenerateNodeProjectAssetsLists.dependsOn "ApplyPatchScriptToModules"
 
     def nativeModulesABIs = android.defaultConfig.ndk.abiFilters;
-    if (!nativeModulesABIs) {
+    if (nativeModulesABIs == null) {
         // No abiFilter is defined for the build. Build native modules for eevery architecture.
         nativeModulesABIs = ["armeabi-v7a", "x86", "arm64-v8a", "x86_64"] as Set<String>;
     }
@@ -368,6 +369,17 @@ if ("1".equals(shouldRebuildNativeModules)) {
         task "BuildNpmModules${abi_name}" (type:Exec) {
             dependsOn "CopyNodeProjectAssets${abi_name}"
             description = "Building native modules for ${abi_name}."
+            def nodeVersionStdout = new ByteArrayOutputStream()
+            def nodeVersionResult = exec {
+                commandLine 'node', '-p', 'process.versions.node.split(".")[0]'
+                standardOutput = nodeVersionStdout
+            }
+            if (nodeVersionResult.exitValue != 0) {
+                throw new GradleException("Failed to get node version: ${nodeVersionResult.errorOutput}")
+            }
+            if (nodeVersionStdout.toString().trim() != "${_nodeVersionRequired}") {
+                throw new GradleException("nodejs-mobile-react-native requires Node.js version ${_nodeVersionRequired}, but found ${nodeVersionStdout.toString().trim()}")
+            }
             inputs.file "${rootProject.buildDir}/nodejs-native-assets-temp-build/nodejs-native-assets-${abi_name}/copy.timestamp"
             outputs.dir "${rootProject.buildDir}/nodejs-native-assets-temp-build/nodejs-native-assets-${abi_name}/nodejs-project/"
             workingDir "${rootProject.buildDir}/nodejs-native-assets-temp-build/nodejs-native-assets-${abi_name}/nodejs-project/"

@@ -341,3 +341,9 @@ module.exports = {
 ## Changelog
 
 Releases are documented in [CHANGELOG.md](https://github.com/nodejs-mobile/nodejs-mobile-react-native/blob/unstable/CHANGELOG.md)
+
+## Versioning
+
+This project does *NOT* follow SemVer, instead it aims to reflect the upstream Node.js version is is based on.
+
+`nodejs-mobile` version `A.B.C` is based on Node.js version `A.B.*`, while the `C` is incremented whenever there are *any* changes to our codebase, be them fixes, features or otherwise, breaking changes or not. For this reason we recommend you to NOT use range versions like `^` and `~` but instead to pin the version of this package.

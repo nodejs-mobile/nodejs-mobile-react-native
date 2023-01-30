@@ -1,5 +1,22 @@
 #!/bin/sh
 set -e
+
+if [ -f ./.xcode.env ]; then
+  source "./.xcode.env";
+fi
+if [ -f ./.xcode.env.local ]; then
+  source "./.xcode.env.local";
+fi
+
+DESIRED_NODE_VERSION="16"
+CURRENT_NODE_VERSION="$(node -p "process.versions.node.split('.')[0]")"
+if [ "$CURRENT_NODE_VERSION" -ne "$DESIRED_NODE_VERSION" ]; then
+  echo "nodejs-mobile-react-native requires Node.js version \n
+$DESIRED_NODE_VERSION accessible from Xcode, but found \
+$(node -p 'process.versions.node')"
+  exit 1
+fi
+
 if [ -z "$NODEJS_MOBILE_BUILD_NATIVE_MODULES" ]; then
 # If build native modules preference is not set, look for it in the project's
 #nodejs-assets/BUILD_NATIVE_MODULES.txt file.
