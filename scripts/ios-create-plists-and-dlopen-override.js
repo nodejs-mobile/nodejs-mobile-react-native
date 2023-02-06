@@ -16,7 +16,8 @@ function visitEveryFramework(projectPath) {
       if (fs.lstatSync(currentFilename).isDirectory()) {
         if (currentFilename.endsWith('.node')) {
           let frameworkContents = fs.readdirSync(currentFilename);
-          // Frameworks output by nodejs-mobile-gyp are expected to have only one file inside, corresponding to the proper shared library.
+          // Frameworks output by nodejs-mobile-gyp are expected to have only
+          // one file inside, corresponding to the proper shared library.
           if (frameworkContents.length != 1) {
             console.log(
               'Skipping a ".node". Expected to find only one file inside this path: ' +
@@ -28,7 +29,8 @@ function visitEveryFramework(projectPath) {
             let checkFileType = spawnSync('file', [
               path.join(currentFilename, currentBinaryName),
             ]);
-            // File inside a .framework should be a dynamically linked shared library.
+            // File inside a .framework should be a dynamically linked shared
+            // library.
             if (
               checkFileType.stdout
                 .toString()
@@ -46,7 +48,9 @@ function visitEveryFramework(projectPath) {
             } else {
               console.log(
                 'Skipping a ".node". Couldn\'t find a dynamically linked shared library inside ' +
-                  currentFilename,
+                  currentFilename +
+                  ' because ' +
+                  checkFileType.stdout.toString(),
               );
               countInvalidFrameworks++;
             }
