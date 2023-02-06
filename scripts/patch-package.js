@@ -6,35 +6,59 @@ const path = require('path');
 // for mobile, this substitution will have different values at
 // build time and runtime, so we pre-substitute them with fixed
 // values.
-function patchPackageJSON_preNodeGyp_modulePath(filePath) {
-  let packageReadData = fs.readFileSync(filePath);
-  let packageJSON = JSON.parse(packageReadData);
-  if (packageJSON && packageJSON.binary && packageJSON.binary.module_path) {
-    let binaryPathConfiguration = packageJSON.binary.module_path;
-    binaryPathConfiguration = binaryPathConfiguration.replace(
-      /\{node_abi\}/g,
-      'node_abi',
-    );
-    binaryPathConfiguration = binaryPathConfiguration.replace(
-      /\{platform\}/g,
-      'platform',
-    );
-    binaryPathConfiguration = binaryPathConfiguration.replace(
-      /\{arch\}/g,
-      'arch',
-    );
-    binaryPathConfiguration = binaryPathConfiguration.replace(
-      /\{target_arch\}/g,
-      'target_arch',
-    );
-    binaryPathConfiguration = binaryPathConfiguration.replace(
-      /\{libc\}/g,
-      'libc',
-    );
-    packageJSON.binary.module_path = binaryPathConfiguration;
-    let packageWriteData = JSON.stringify(packageJSON, null, 2);
-    fs.writeFileSync(filePath, packageWriteData);
-  }
+function patchPackageJSON_preNodeGyp_modulePath(packageJSONPath) {
+  const packageJSONReadData = fs.readFileSync(packageJSONPath);
+  const packageJSON = JSON.parse(packageJSONReadData);
+  if (!packageJSON) return
+  if (!packageJSON.binary) return
+  if (!packageJSON.binary.module_path) return
+  let binaryPathConfiguration = packageJSON.binary.module_path;
+  binaryPathConfiguration = binaryPathConfiguration.replace(
+    /\{node_abi\}/g,
+    'node_abi',
+  );
+  binaryPathConfiguration = binaryPathConfiguration.replace(
+    /\{platform\}/g,
+    'platform',
+  );
+  binaryPathConfiguration = binaryPathConfiguration.replace(
+    /\{arch\}/g,
+    'arch',
+  );
+  binaryPathConfiguration = binaryPathConfiguration.replace(
+    /\{target_arch\}/g,
+    'target_arch',
+  );
+  binaryPathConfiguration = binaryPathConfiguration.replace(
+    /\{libc\}/g,
+    'libc',
+  );
+  packageJSON.binary.module_path = binaryPathConfiguration;
+  const packageJSONWriteData = JSON.stringify(packageJSON, null, 2);
+  fs.writeFileSync(packageJSONPath, packageJSONWriteData);
+}
+
+/**
+ * Since npm 7+, the environment variable npm_config_node_gyp (which we rely on
+ * in scripts/ios-build-native-modules.sh) has not been forwarded to package
+ * scripts, so here we patch each module's package.json to replace
+ * node-gyp-build with our fork, node-gyp-build-mobile. This fork reads a
+ * different environment variable, originally created in
+ * scripts/ios-build-native-modules.sh, pointing to node-mobile-gyp.
+ */
+function patchPackageJSONNodeGypBuild(packageJSONPath) {
+  const packageJSONReadData = fs.readFileSync(packageJSONPath);
+  const packageJSON = JSON.parse(packageJSONReadData);
+  if (!packageJSON) return
+  if (!packageJSON.scripts) return;
+  if (!packageJSON.scripts.install) return;
+  if (!packageJSON.scripts.install.includes('node-gyp-build')) return
+  packageJSON.scripts.install = packageJSON.scripts.install.replace(
+    /node-gyp-build(?!-)/g,
+    'node-gyp-build-mobile',
+  );
+  const packageJSONWriteData = JSON.stringify(packageJSON, null, 2);
+  fs.writeFileSync(packageJSONPath, packageJSONWriteData);
 }
 
 // Visits every package.json to apply patches.
@@ -49,6 +73,7 @@ function visitPackageJSON(folderPath) {
       if (name === 'package.json') {
         try {
           patchPackageJSON_preNodeGyp_modulePath(filePath);
+          patchPackageJSONNodeGypBuild(filePath);
         } catch (e) {
           console.warn(
             'Failed to patch the file : "' +
