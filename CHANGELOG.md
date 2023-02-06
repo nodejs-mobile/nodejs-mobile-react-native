@@ -6,6 +6,7 @@
 </tr>
 <tr>
 <td>
+<a href="#16.17.1">16.17.1</a><br/>
 <a href="#16.17.0">16.17.0</a><br/>
 <a href="#0.8.2">0.8.2</a><br/>
 <a href="#0.8.1">0.8.1</a><br/>
@@ -36,8 +37,17 @@
 </tr>
 </table>
 
+<a id="16.17.1"></a>
+## 2023-02-06, Version 16.17.1 (Current)
+
+### Notable Changes
+
+* plugin: fix iOS scripts discovering the path to node-mobile-gyp
+* plugin: add more debug info when built iOS frameworks are wrong
+
+
 <a id="16.17.0"></a>
-## 2023-01-30, Version 16.17.0 (Current)
+## 2023-01-30, Version 16.17.0
 
 ### Notable Changes
 
