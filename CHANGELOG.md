@@ -6,6 +6,7 @@
 </tr>
 <tr>
 <td>
+<a href="#16.17.3">16.17.3</a><br/>
 <a href="#16.17.2">16.17.2</a><br/>
 <a href="#16.17.1">16.17.1</a><br/>
 <a href="#16.17.0">16.17.0</a><br/>
@@ -38,8 +39,16 @@
 </tr>
 </table>
 
+<a id="16.17.3"></a>
+## 2023-02-07, Version 16.17.3 (Current)
+
+### Notable Changes
+
+* plugin: change iOS plisttemplate with min iOS 11.0
+
+
 <a id="16.17.2"></a>
-## 2023-02-07, Version 16.17.2 (Current)
+## 2023-02-07, Version 16.17.2
 
 ### Notable Changes
 
