@@ -9,9 +9,9 @@ const path = require('path');
 function patchPackageJSON_preNodeGyp_modulePath(packageJSONPath) {
   const packageJSONReadData = fs.readFileSync(packageJSONPath);
   const packageJSON = JSON.parse(packageJSONReadData);
-  if (!packageJSON) return
-  if (!packageJSON.binary) return
-  if (!packageJSON.binary.module_path) return
+  if (!packageJSON) return;
+  if (!packageJSON.binary) return;
+  if (!packageJSON.binary.module_path) return;
   let binaryPathConfiguration = packageJSON.binary.module_path;
   binaryPathConfiguration = binaryPathConfiguration.replace(
     /\{node_abi\}/g,
@@ -48,11 +48,19 @@ function patchPackageJSON_preNodeGyp_modulePath(packageJSONPath) {
  */
 function patchPackageJSONNodeGypBuild(packageJSONPath) {
   const packageJSONReadData = fs.readFileSync(packageJSONPath);
-  const packageJSON = JSON.parse(packageJSONReadData);
-  if (!packageJSON) return
+  let packageJSON;
+  try {
+    packageJSON = JSON.parse(packageJSONReadData);
+  } catch (err) {
+    console.log(
+      'nodejs-mobile-react-native patcher failed to parse ' + packageJSONPath,
+    );
+    return;
+  }
+  if (!packageJSON) return;
   if (!packageJSON.scripts) return;
   if (!packageJSON.scripts.install) return;
-  if (!packageJSON.scripts.install.includes('node-gyp-build')) return
+  if (!packageJSON.scripts.install.includes('node-gyp-build')) return;
   packageJSON.scripts.install = packageJSON.scripts.install.replace(
     /node-gyp-build(?!-)/g,
     '$PROJECT_DIR/../node_modules/.bin/node-gyp-build-mobile',
