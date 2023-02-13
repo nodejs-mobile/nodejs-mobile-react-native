@@ -6,6 +6,7 @@
 </tr>
 <tr>
 <td>
+<a href="#16.17.4">16.17.4</a><br/>
 <a href="#16.17.3">16.17.3</a><br/>
 <a href="#16.17.2">16.17.2</a><br/>
 <a href="#16.17.1">16.17.1</a><br/>
@@ -39,8 +40,16 @@
 </tr>
 </table>
 
+<a id="16.17.4"></a>
+## 2023-02-13, Version 16.17.4 (Current)
+
+### Notable Changes
+
+* plugin: fix Android scripts finding node-gyp-build-mobile
+
+
 <a id="16.17.3"></a>
-## 2023-02-07, Version 16.17.3 (Current)
+## 2023-02-07, Version 16.17.3
 
 ### Notable Changes
 
