@@ -383,19 +383,22 @@ if ("1".equals(shouldRebuildNativeModules)) {
             inputs.file "${rootProject.buildDir}/nodejs-native-assets-temp-build/nodejs-native-assets-${abi_name}/copy.timestamp"
             outputs.dir "${rootProject.buildDir}/nodejs-native-assets-temp-build/nodejs-native-assets-${abi_name}/nodejs-project/"
             workingDir "${rootProject.buildDir}/nodejs-native-assets-temp-build/nodejs-native-assets-${abi_name}/nodejs-project/"
-            commandLine npmCommandName, '--verbose', 'rebuild', '--build-from-source'
-            environment ('npm_config_node_engine', 'v8' )
-            environment ('npm_config_nodedir', "${project.projectDir}/libnode/" )
+
             String npm_gyp_path_to_use; // Check common paths for nodejs-mobile-gyp
             if ( file("${project.projectDir}/../../nodejs-mobile-gyp/bin/node-gyp.js").exists() ) {
                 npm_gyp_path_to_use = "${project.projectDir}/../../nodejs-mobile-gyp/bin/node-gyp.js";
             } else {
                 npm_gyp_path_to_use = "${project.projectDir}/../node_modules/nodejs-mobile-gyp/bin/node-gyp.js";
             }
+
+            environment ('npm_config_node_engine', 'v8' )
+            environment ('npm_config_nodedir', "${project.projectDir}/libnode/" )
             environment ('npm_config_node_gyp', npm_gyp_path_to_use )
             environment ('npm_config_arch', temp_arch)
             environment ('npm_config_platform', 'android')
             environment ('npm_config_format', 'make-android')
+            environment ('PROJECT_DIR', "${rootProject.projectDir}")
+            environment ('NODEJS_MOBILE_GYP', npm_gyp_path_to_use)
 
             // Adds the original project .bin to the path. It's a workaround
             // to correctly build some modules that depend on symlinked modules,
@@ -409,13 +412,16 @@ if ("1".equals(shouldRebuildNativeModules)) {
             environment ("CARGO_TARGET_${cargo_target_triple}_AR", "${npm_toolchain_ar}")
             environment ("CARGO_TARGET_${cargo_target_triple}_LINKER", "${npm_toolchain_link}")
 
-            environment ('TOOLCHAIN',"${toolchain_path}")
-            environment ('AR',"${npm_toolchain_ar}")
-            environment ('CC',"${npm_toolchain_cc}")
-            environment ('CXX',"${npm_toolchain_cxx}")
-            environment ('LINK',"${npm_toolchain_link}")
-            environment ('GYP_DEFINES',"${npm_gyp_defines}")
+            environment ('TOOLCHAIN', "${toolchain_path}")
+            environment ('AR', "${npm_toolchain_ar}")
+            environment ('CC', "${npm_toolchain_cc}")
+            environment ('CXX', "${npm_toolchain_cxx}")
+            environment ('LINK', "${npm_toolchain_link}")
+            environment ('GYP_DEFINES', "${npm_gyp_defines}")
+
+            commandLine npmCommandName, '--verbose', '--foreground-scripts', 'rebuild', '--build-from-source'
         }
+
         task "CopyBuiltNpmAssets${abi_name}" (type:Sync) {
             dependsOn "BuildNpmModules${abi_name}"
             description = "Copying node assets with build native modules for ${abi_name}."
