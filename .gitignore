@@ -8,7 +8,10 @@
 node_modules/
 npm-debug.log
 yarn-error.log
-  
+
+# Large binaries
+android/libnode/bin/*/libnode.so
+ios/NodeMobile.framework/NodeMobile
 
 # Xcode
 #
@@ -29,7 +32,7 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
-      
+
 
 # Android/IntelliJ
 #
@@ -43,4 +46,3 @@ local.properties
 buck-out/
 \.buckd/
 *.keystore
-      
