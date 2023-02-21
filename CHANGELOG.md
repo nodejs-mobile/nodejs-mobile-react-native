@@ -6,6 +6,7 @@
 </tr>
 <tr>
 <td>
+<a href="#16.17.5">16.17.5</a><br/>
 <a href="#16.17.4">16.17.4</a><br/>
 <a href="#16.17.3">16.17.3</a><br/>
 <a href="#16.17.2">16.17.2</a><br/>
@@ -40,8 +41,17 @@
 </tr>
 </table>
 
+<a id="16.17.5"></a>
+## 2023-02-21, Version 16.17.5 (Current)
+
+### Notable Changes
+
+* ios: update nodejs-mobile to 16.17.1, support iOS Simulators on x86_64 hosts
+* plugin: ignore large binaries from git but not from npm
+
+
 <a id="16.17.4"></a>
-## 2023-02-13, Version 16.17.4 (Current)
+## 2023-02-13, Version 16.17.4
 
 ### Notable Changes
 
