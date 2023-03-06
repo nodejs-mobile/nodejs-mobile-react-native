@@ -52,7 +52,7 @@ android {
     compileSdkVersion ((rootProject?.ext?.properties?.compileSdkVersion) ?: 23)
     buildToolsVersion ((rootProject?.ext?.properties?.buildToolsVersion) ?: "23.0.1")
 
-    ndkVersion ((rootProject?.ext?.ndkVersion) ?: "21.4.7075529")
+    ndkVersion ((rootProject?.ext?.ndkVersion) ?: "24.0.8215888")
 
     defaultConfig {
         minSdkVersion _nodeMinSdkVersion
@@ -310,7 +310,7 @@ if ("1".equals(shouldRebuildNativeModules)) {
 
         String ndk_bundle_path = android.ndkDirectory
         String toolchain_path = "${ndk_bundle_path}/toolchains/llvm/prebuilt/${temp_host_tag}"
-        String npm_toolchain_ar = "${toolchain_path}/bin/${temp_binutils_prefix}-ar"
+        String npm_toolchain_ar = "${toolchain_path}/bin/llvm-ar"
         String npm_toolchain_cc = "${toolchain_path}/bin/${temp_compiler_prefix}-clang"
         String npm_toolchain_cxx = "${toolchain_path}/bin/${temp_compiler_prefix}-clang++"
         String npm_toolchain_link = "${toolchain_path}/bin/${temp_compiler_prefix}-clang++"
