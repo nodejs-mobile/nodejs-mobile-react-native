@@ -6,6 +6,7 @@
 </tr>
 <tr>
 <td>
+<a href="#16.17.6">16.17.6</a><br/>
 <a href="#16.17.5">16.17.5</a><br/>
 <a href="#16.17.4">16.17.4</a><br/>
 <a href="#16.17.3">16.17.3</a><br/>
@@ -41,8 +42,16 @@
 </tr>
 </table>
 
+<a id="16.17.6"></a>
+## 2023-03-06, Version 16.17.6 (Current)
+
+### Notable Changes
+
+* android: require NDK 24.x or higher
+
+
 <a id="16.17.5"></a>
-## 2023-02-21, Version 16.17.5 (Current)
+## 2023-02-21, Version 16.17.5
 
 ### Notable Changes
 
