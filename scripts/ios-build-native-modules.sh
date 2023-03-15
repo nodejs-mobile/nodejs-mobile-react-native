@@ -59,12 +59,7 @@ if [ -d "$CODESIGNING_FOLDER_PATH"/nodejs-project/node_modules/ ]; then
 fi
 
 # Get the nodejs-mobile-gyp location
-if [ -d "$PROJECT_DIR/../node_modules/nodejs-mobile-gyp/" ]; then
-  NODEJS_MOBILE_GYP_DIR="$( cd "$PROJECT_DIR" && cd ../node_modules/nodejs-mobile-gyp/ && pwd )"
-else
-  NODEJS_MOBILE_GYP_DIR="$( cd "$PROJECT_DIR" && cd ../node_modules/nodejs-mobile-react-native/node_modules/nodejs-mobile-gyp/ && pwd )"
-fi
-NODEJS_MOBILE_GYP_BIN_FILE="$NODEJS_MOBILE_GYP_DIR"/bin/node-gyp.js
+NODEJS_MOBILE_GYP_BIN_FILE="$( cd "$PROJECT_DIR" && cd .. && node -p 'require.resolve(`nodejs-mobile-gyp/bin/node-gyp.js`)' )"
 
 # Support building neon-bindings (Rust) native modules
 if [ -f ~/.cargo/env ]; then

@@ -12,5 +12,5 @@ if [ -d "$CODESIGNING_FOLDER_PATH/builtin_modules/" ]; then
   rm -rf "$CODESIGNING_FOLDER_PATH/builtin_modules/"
 fi
 
-rsync -av --delete "$NODEJS_ASSETS_DIR/nodejs-project" "$CODESIGNING_FOLDER_PATH"
-rsync -av --delete "$NODEJS_BUILT_IN_MODULES_DIR/builtin_modules" "$CODESIGNING_FOLDER_PATH"
+rsync --archive --delete "$NODEJS_ASSETS_DIR/nodejs-project" "$CODESIGNING_FOLDER_PATH"
+rsync --archive --delete "$NODEJS_BUILT_IN_MODULES_DIR/builtin_modules" "$CODESIGNING_FOLDER_PATH"
