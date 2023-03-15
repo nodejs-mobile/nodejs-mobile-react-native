@@ -6,6 +6,7 @@
 </tr>
 <tr>
 <td>
+<a href="#16.17.7">16.17.7</a><br/>
 <a href="#16.17.6">16.17.6</a><br/>
 <a href="#16.17.5">16.17.5</a><br/>
 <a href="#16.17.4">16.17.4</a><br/>
@@ -42,8 +43,16 @@
 </tr>
 </table>
 
+<a id="16.17.7"></a>
+## 2023-03-15, Version 16.17.7 (Current)
+
+### Notable Changes
+
+* ios: improve Xcode scripts, less verbose outputs
+
+
 <a id="16.17.6"></a>
-## 2023-03-06, Version 16.17.6 (Current)
+## 2023-03-06, Version 16.17.6
 
 ### Notable Changes
 
