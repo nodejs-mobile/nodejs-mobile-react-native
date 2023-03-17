@@ -17,6 +17,9 @@ $(node -p 'process.versions.node')"
   exit 1
 fi
 
+# This is our nodejs-project folder that was copied to the Xcode build folder
+NODEPROJ="$CODESIGNING_FOLDER_PATH/nodejs-project"
+
 if [ -z "$NODEJS_MOBILE_BUILD_NATIVE_MODULES" ]; then
 # If build native modules preference is not set, look for it in the project's
 #nodejs-assets/BUILD_NATIVE_MODULES.txt file.
@@ -30,7 +33,7 @@ fi
 if [ -z "$NODEJS_MOBILE_BUILD_NATIVE_MODULES" ]; then
 # If build native modules preference is not set, try to find .gyp files
 #to turn it on.
-  gypfiles=($(find "$CODESIGNING_FOLDER_PATH/nodejs-project/" -type f -name "*.gyp"))
+  gypfiles=($(find "$NODEPROJ" -type f -name "*.gyp"))
   if [ ${#gypfiles[@]} -gt 0 ]; then
     NODEJS_MOBILE_BUILD_NATIVE_MODULES=1
   else
@@ -41,20 +44,58 @@ fi
 if [ "1" != "$NODEJS_MOBILE_BUILD_NATIVE_MODULES" ]; then exit 0; fi
 
 # Delete object files that may already come from within the npm package.
-find "$CODESIGNING_FOLDER_PATH/nodejs-project/" -name "*.o" -type f -delete
-find "$CODESIGNING_FOLDER_PATH/nodejs-project/" -name "*.a" -type f -delete
-find "$CODESIGNING_FOLDER_PATH/nodejs-project/" -name "*.node" -type f -delete
+find "$NODEPROJ" -name "*.o" -type f -delete
+find "$NODEPROJ" -name "*.a" -type f -delete
+
+# Function to skip compilation of a prebuilt module
+preparePrebuiltModule()
+{
+  local DOT_NODE_PATH="$1"
+  local DOT_NODE_FULL="$(cd "$(dirname -- "$DOT_NODE_PATH")" >/dev/null; pwd -P)/$(basename -- "$DOT_NODE_PATH")"
+  local MODULE_ROOT="$(cd $DOT_NODE_PATH && cd .. && cd .. && cd .. && pwd)"
+  local MODULE_NAME="$(basename $MODULE_ROOT)"
+  echo "Preparing to use the prebuild in $MODULE_NAME"
+  # Move the prebuild to the correct folder:
+  rm -rf $MODULE_ROOT/build
+  mkdir -p $MODULE_ROOT/build/Release
+  mv $DOT_NODE_FULL $MODULE_ROOT/build/Release/
+  # Hack the npm package to forcefully disable compile-on-install:
+  rm -rf $MODULE_ROOT/binding.gyp
+  sed -i.bak 's/"install"/"dontinstall"/g; s/"rebuild"/"dontrebuild"/g; s/"gypfile"/"dontgypfile"/g' $MODULE_ROOT/package.json
+}
 
 # Delete bundle contents that may be there from previous builds.
-find "$CODESIGNING_FOLDER_PATH/nodejs-project/" -path "*/*.node/*" -delete
-find "$CODESIGNING_FOLDER_PATH/nodejs-project/" -name "*.node" -type d -delete
-find "$CODESIGNING_FOLDER_PATH/nodejs-project/" -path "*/*.framework/*" -delete
-find "$CODESIGNING_FOLDER_PATH/nodejs-project/" -name "*.framework" -type d -delete
+# Handle the special case where the module has a prebuild that we want to use
+if [ "$PLATFORM_PREFERRED_ARCH" == "arm64" ]; then
+  PREBUILD_ARCH="arm64"
+else
+  PREBUILD_ARCH="x64"
+fi
+find -E "$NODEPROJ" \
+    ! -regex ".*/prebuilds/ios-$PREBUILD_ARCH" \
+    -regex '.*/prebuilds/[^/]*$' -type d \
+    -prune -exec rm -rf "{}" \;
+find -E "$NODEPROJ" \
+    ! -regex ".*/prebuilds/ios-$PREBUILD_ARCH/.*\.node$" \
+    -name '*.node' -type f \
+    -exec rm "{}" \;
+find "$NODEPROJ" \
+    -name "*.framework" -type d \
+    -prune -exec rm -rf "{}" \;
+PREBUILD_DOT_NODES=`find -E "$NODEPROJ" -regex ".*/prebuilds/ios-$PREBUILD_ARCH/.*\.node$"`
+for DOT_NODE in "$PREBUILD_DOT_NODES"
+do
+  preparePrebuiltModule "$DOT_NODE"
+done
+
+# Delete bundle contents that may be there from previous builds.
+find "$NODEPROJ" -path "*/*.node/*" -delete
+find "$NODEPROJ" -name "*.node" -type d -delete
 
 # Apply patches to the modules package.json
-if [ -d "$CODESIGNING_FOLDER_PATH"/nodejs-project/node_modules/ ]; then
+if [ -d "$NODEPROJ"/node_modules/ ]; then
   PATCH_SCRIPT_DIR="$( cd "$PROJECT_DIR" && cd ../node_modules/nodejs-mobile-react-native/scripts/ && pwd )"
-  NODEJS_PROJECT_MODULES_DIR="$( cd "$CODESIGNING_FOLDER_PATH" && cd nodejs-project/node_modules/ && pwd )"
+  NODEJS_PROJECT_MODULES_DIR="$( cd "$NODEPROJ" && cd node_modules && pwd )"
   node "$PATCH_SCRIPT_DIR"/patch-package.js $NODEJS_PROJECT_MODULES_DIR
 fi
 
@@ -68,7 +109,7 @@ fi
 
 # Rebuild modules with right environment
 NODEJS_HEADERS_DIR="$( cd "$PROJECT_DIR" && cd ../node_modules/nodejs-mobile-react-native/ios/libnode/ && pwd )"
-pushd $CODESIGNING_FOLDER_PATH/nodejs-project/
+pushd $NODEPROJ
 if [ "$PLATFORM_NAME" == "iphoneos" ]
 then
   GYP_DEFINES="OS=ios" \

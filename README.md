@@ -77,6 +77,28 @@ echo "1" > nodejs-assets/BUILD_NATIVE_MODULES.txt
 react-native run-ios
 ```
 
+##### Prebuilds
+
+The plugin also automatically detects the presence of prebuilt native modules, and **disables** compiling them on the fly. The prebuilds are detected as `.node` files in a specific path in the npm package:
+
+```
+nodejs-assets/nodejs-project/node_modules/<MODULE_NAME>/prebuilds/<PLATFORM>-<ARCH>/<NAME>.node
+```
+
+Notice `PLATFORM` and `ARCH`. The supported values are:
+
+- PLATFORM = `android`
+    - ARCH = `arm`
+    - ARCH = `arm64`
+    - ARCH = `x64`
+- PLATFORM = `ios`
+    - ARCH = `arm64`
+    - ARCH = `x64`
+
+Compilation will then be forcefully disabled by hacking the `<MODULE_NAME>` folder to delete its `binding.gyp` and modify its `package.json` such that node-gyp will ignore this module for compilation.
+
+If you are a maintainer of a native module and want to support prebuilds for nodejs-mobile, check out the CLI tool [prebuild-for-nodejs-mobile](https://github.com/staltz/prebuild-for-nodejs-mobile).
+
 ### `React-Native` application
 
 To communicate with Node.js from your `react-native` application, first import `nodejs-mobile-react-native`.
