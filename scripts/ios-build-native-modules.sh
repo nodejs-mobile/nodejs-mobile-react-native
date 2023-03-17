@@ -88,10 +88,6 @@ do
   preparePrebuiltModule "$DOT_NODE"
 done
 
-# Delete bundle contents that may be there from previous builds.
-find "$NODEPROJ" -path "*/*.node/*" -delete
-find "$NODEPROJ" -name "*.node" -type d -delete
-
 # Apply patches to the modules package.json
 if [ -d "$NODEPROJ"/node_modules/ ]; then
   PATCH_SCRIPT_DIR="$( cd "$PROJECT_DIR" && cd ../node_modules/nodejs-mobile-react-native/scripts/ && pwd )"
