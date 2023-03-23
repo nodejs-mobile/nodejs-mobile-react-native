@@ -82,9 +82,7 @@ find -E "$NODEPROJ" \
 find "$NODEPROJ" \
     -name "*.framework" -type d \
     -prune -exec rm -rf "{}" \;
-PREBUILD_DOT_NODES=`find -E "$NODEPROJ" -regex ".*/prebuilds/ios-$PREBUILD_ARCH/.*\.node$"`
-for DOT_NODE in "$PREBUILD_DOT_NODES"
-do
+for DOT_NODE in `find -E "$NODEPROJ" -regex ".*/prebuilds/ios-$PREBUILD_ARCH/.*\.node$"`; do
   preparePrebuiltModule "$DOT_NODE"
 done
 
