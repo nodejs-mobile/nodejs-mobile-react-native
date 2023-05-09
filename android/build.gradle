@@ -68,7 +68,7 @@ android {
             }
         }
         ndk {
-            abiFilters = project(":app").android.defaultConfig.ndk.abiFilters
+            abiFilters = project(":app").android.defaultConfig.ndk.abiFilters ?: ["armeabi-v7a", "x86_64", "arm64-v8a"]
         }
     }
 
