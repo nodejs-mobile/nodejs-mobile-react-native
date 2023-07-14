@@ -7,7 +7,6 @@ const mkdirp = require('mkdirp');
 
 function hostPackageDir(file) {
   var pathComponents = file.split(path.sep);
-  console.log({pathComponents})
   var modulesDirIndex = pathComponents.lastIndexOf('node_modules');
   if (modulesDirIndex < 1) return undefined;
 
