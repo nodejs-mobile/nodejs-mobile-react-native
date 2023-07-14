@@ -1,6 +1,6 @@
 {
   "name": "nodejs-mobile-react-native",
-  "version": "0.8.1",
+  "version": "16.17.10",
   "description": "Node.js for Mobile Apps React Native plugin",
   "main": "index.js",
   "scripts": {
@@ -30,6 +30,7 @@
     "mkdirp": "^0.5.1",
     "ncp": "^2.0.0",
     "nodejs-mobile-gyp": "^0.3.1",
+    "node-gyp-build-mobile": "4.6.0-2",
     "xcode": "^2.0.0"
   }
 }

@@ -6,6 +6,18 @@
 </tr>
 <tr>
 <td>
+<a href="#16.17.10">16.17.10</a><br/>
+<a href="#16.17.9">16.17.9</a><br/>
+<a href="#16.17.8">16.17.8</a><br/>
+<a href="#16.17.7">16.17.7</a><br/>
+<a href="#16.17.6">16.17.6</a><br/>
+<a href="#16.17.5">16.17.5</a><br/>
+<a href="#16.17.4">16.17.4</a><br/>
+<a href="#16.17.3">16.17.3</a><br/>
+<a href="#16.17.2">16.17.2</a><br/>
+<a href="#16.17.1">16.17.1</a><br/>
+<a href="#16.17.0">16.17.0</a><br/>
+<a href="#0.8.2">0.8.2</a><br/>
 <a href="#0.8.1">0.8.1</a><br/>
 <a href="#0.8.0">0.8.0</a><br/>
 <a href="#0.7.0">0.7.0</a><br/>
@@ -34,8 +46,108 @@
 </tr>
 </table>
 
+<a id="16.17.10"></a>
+## 2023-03-23, Version 16.17.10 (Current)
+
+### Notable Changes
+
+* ios: fix bash mistake in build native mods script
+
+
+<a id="16.17.9"></a>
+## 2023-03-17, Version 16.17.9
+
+### Notable Changes
+
+* ios: hotfix for mistake in 16.17.8
+
+
+<a id="16.17.8"></a>
+## 2023-03-17, Version 16.17.8
+
+### Notable Changes
+
+* plugin: support prebuilt native modules and skip their compilation
+
+
+<a id="16.17.7"></a>
+## 2023-03-15, Version 16.17.7
+
+### Notable Changes
+
+* ios: improve Xcode scripts, less verbose outputs
+
+
+<a id="16.17.6"></a>
+## 2023-03-06, Version 16.17.6
+
+### Notable Changes
+
+* android: require NDK 24.x or higher
+
+
+<a id="16.17.5"></a>
+## 2023-02-21, Version 16.17.5
+
+### Notable Changes
+
+* ios: update nodejs-mobile to 16.17.1, support iOS Simulators on x86_64 hosts
+* plugin: ignore large binaries from git but not from npm
+
+
+<a id="16.17.4"></a>
+## 2023-02-13, Version 16.17.4
+
+### Notable Changes
+
+* plugin: fix Android scripts finding node-gyp-build-mobile
+
+
+<a id="16.17.3"></a>
+## 2023-02-07, Version 16.17.3
+
+### Notable Changes
+
+* plugin: change iOS plisttemplate with min iOS 11.0
+
+
+<a id="16.17.2"></a>
+## 2023-02-07, Version 16.17.2
+
+### Notable Changes
+
+* plugin: node_modules patcher ignores malformed package.json files
+
+
+<a id="16.17.1"></a>
+## 2023-02-06, Version 16.17.1
+
+### Notable Changes
+
+* plugin: fix iOS scripts discovering the path to node-mobile-gyp
+* plugin: add more debug info when built iOS frameworks are wrong
+
+
+<a id="16.17.0"></a>
+## 2023-01-30, Version 16.17.0
+
+### Notable Changes
+
+* Update `nodejs-mobile` binaries to `v16.17.0`
+* (Host) Node.js version 16 required when building native modules on Android and iOS
+
+
+<a id="0.8.2"></a>
+## 2022-09-06, Version 0.8.2
+
+### Commits
+
+* [[`2fa781d`](https://github.com/nodejs-mobile/nodejs-mobile-react-native/commit/2fa781d836aa794c6b3809db58bdf0f417859f01)] - plugin: support react-native 0.69 on Android
+* [[`c1e15d4`](https://github.com/nodejs-mobile/nodejs-mobile-react-native/commit/c1e15d40d19d3e356cc8dc3f1d1013f71214c3a5)] - Fix podspec source specification
+
+
 <a id="0.8.1"></a>
-## 2022-05-19, Version 0.8.1 (Current)
+## 2022-05-19, Version 0.8.1
 
 ### Commits
 

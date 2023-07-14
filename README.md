@@ -77,6 +77,28 @@ echo "1" > nodejs-assets/BUILD_NATIVE_MODULES.txt
 react-native run-ios
 ```
 
+##### Prebuilds
+
+The plugin also automatically detects the presence of prebuilt native modules, and **disables** compiling them on the fly. The prebuilds are detected as `.node` files in a specific path in the npm package:
+
+```
+nodejs-assets/nodejs-project/node_modules/<MODULE_NAME>/prebuilds/<PLATFORM>-<ARCH>/<NAME>.node
+```
+
+Notice `PLATFORM` and `ARCH`. The supported values are:
+
+- PLATFORM = `android`
+    - ARCH = `arm`
+    - ARCH = `arm64`
+    - ARCH = `x64`
+- PLATFORM = `ios`
+    - ARCH = `arm64`
+    - ARCH = `x64`
+
+Compilation will then be forcefully disabled by hacking the `<MODULE_NAME>` folder to delete its `binding.gyp` and modify its `package.json` such that node-gyp will ignore this module for compilation.
+
+If you are a maintainer of a native module and want to support prebuilds for nodejs-mobile, check out the CLI tool [prebuild-for-nodejs-mobile](https://github.com/staltz/prebuild-for-nodejs-mobile).
+
 ### `React-Native` application
 
 To communicate with Node.js from your `react-native` application, first import `nodejs-mobile-react-native`.
@@ -341,3 +363,9 @@ module.exports = {
 ## Changelog
 
 Releases are documented in [CHANGELOG.md](https://github.com/nodejs-mobile/nodejs-mobile-react-native/blob/unstable/CHANGELOG.md)
+
+## Versioning
+
+This project does *NOT* follow SemVer, instead it aims to reflect the upstream Node.js version is is based on.
+
+`nodejs-mobile` version `A.B.C` is based on Node.js version `A.B.*`, while the `C` is incremented whenever there are *any* changes to our codebase, be them fixes, features or otherwise, breaking changes or not. For this reason we recommend you to NOT use range versions like `^` and `~` but instead to pin the version of this package.

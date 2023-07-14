@@ -1,0 +1,3 @@
+# Don't ignore large binaries
+!android/libnode/bin/*/libnode.so
+!ios/NodeMobile.framework/NodeMobile

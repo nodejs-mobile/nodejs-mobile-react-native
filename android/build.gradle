@@ -14,6 +14,7 @@ apply plugin: 'com.android.library'
 def _nodeTargetSdkVersion = ((rootProject?.ext?.properties?.targetSdkVersion) ?: 22)
 def _nodeMinSdkVersion = ((rootProject?.ext?.properties?.minSdkVersion) ?: 16)
 def _compileNativeModulesSdkVersion = _nodeMinSdkVersion;
+def _nodeVersionRequired = 16
 if (_compileNativeModulesSdkVersion<21) {
     // 21 is the minimum sdk version Node is built with.
     _compileNativeModulesSdkVersion=21;
@@ -51,7 +52,7 @@ android {
     compileSdkVersion ((rootProject?.ext?.properties?.compileSdkVersion) ?: 23)
     buildToolsVersion ((rootProject?.ext?.properties?.buildToolsVersion) ?: "23.0.1")
 
-    ndkVersion project(":app").android.ndkVersion
+    ndkVersion ((rootProject?.ext?.ndkVersion) ?: "24.0.8215888")
 
     defaultConfig {
         minSdkVersion _nodeMinSdkVersion
@@ -67,7 +68,7 @@ android {
             }
         }
         ndk {
-            abiFilters = project(":app").android.defaultConfig.ndk.abiFilters
+            abiFilters = project(":app").android.defaultConfig.ndk.abiFilters ?: ["armeabi-v7a", "x86_64", "arm64-v8a"]
         }
     }
 
@@ -182,7 +183,6 @@ if (shouldRebuildNativeModules==null) {
 }
 
 if ("1".equals(shouldRebuildNativeModules)) {
-
     String npmCommandName = 'npm';
     String nodeCommandName = 'node';
     if (OperatingSystem.current().isMacOsX()) {
@@ -309,7 +309,7 @@ if ("1".equals(shouldRebuildNativeModules)) {
 
         String ndk_bundle_path = android.ndkDirectory
         String toolchain_path = "${ndk_bundle_path}/toolchains/llvm/prebuilt/${temp_host_tag}"
-        String npm_toolchain_ar = "${toolchain_path}/bin/${temp_binutils_prefix}-ar"
+        String npm_toolchain_ar = "${toolchain_path}/bin/llvm-ar"
         String npm_toolchain_cc = "${toolchain_path}/bin/${temp_compiler_prefix}-clang"
         String npm_toolchain_cxx = "${toolchain_path}/bin/${temp_compiler_prefix}-clang++"
         String npm_toolchain_link = "${toolchain_path}/bin/${temp_compiler_prefix}-clang++"
@@ -365,25 +365,78 @@ if ("1".equals(shouldRebuildNativeModules)) {
             }
         }
 
-        task "BuildNpmModules${abi_name}" (type:Exec) {
+        task "DeleteIncorrectPrebuilds${abi_name}" (type:Delete) {
             dependsOn "CopyNodeProjectAssets${abi_name}"
+            description = "Delete all .node files except the prebuilt ones for ${abi_name}."
+
+            delete fileTree(dir: "${rootProject.buildDir}/nodejs-native-assets-temp-build/nodejs-native-assets-${abi_name}/nodejs-project/node_modules/").matching {
+                include "**/*.node" // Look for all .node files
+                exclude "**/prebuilds/android-${temp_arch}/*" // Don't touch the correct prebuilds
+            }
+        }
+
+        task "DetectCorrectPrebuilds${abi_name}" {
+            dependsOn "DeleteIncorrectPrebuilds${abi_name}"
+            description = "Handle npm packages that have a correct prebuild for ${abi_name}."
+            inputs.file "${rootProject.buildDir}/nodejs-native-assets-temp-build/nodejs-native-assets-${abi_name}/copy.timestamp"
+            outputs.dir "${rootProject.buildDir}/nodejs-native-assets-temp-build/nodejs-native-assets-${abi_name}/nodejs-project/"
+
+            doLast {
+                def correctDotNodes = fileTree(dir: "${rootProject.buildDir}/nodejs-native-assets-temp-build/nodejs-native-assets-${abi_name}/nodejs-project/node_modules/").matching {
+                    include "**/prebuilds/android-${temp_arch}/*.node"
+                }
+                for (dotNode in correctDotNodes) {
+                    def moduleRoot = file("${dotNode.getAbsoluteFile()}/../../..")
+                    def moduleName = moduleRoot.getName()
+                    println "Preparing to use the prebuild in ${moduleName}"
+                    delete "${moduleRoot}/build"
+                    copy {
+                        from "${dotNode.getAbsoluteFile()}"
+                        into "${moduleRoot}/build/Release/"
+                    }
+                    exec {
+                        workingDir moduleRoot
+                        commandLine 'sed', '-i.bak', 's/"install"/"dontinstall"/g; s/"rebuild"/"dontrebuild"/g; s/"gypfile"/"dontgypfile"/g', 'package.json'
+                    }
+                    delete "${moduleRoot}/binding.gyp"
+                    delete "${moduleRoot}/prebuilds"
+                }
+            }
+        }
+
+        task "BuildNpmModules${abi_name}" (type:Exec) {
+            dependsOn "DetectCorrectPrebuilds${abi_name}"
             description = "Building native modules for ${abi_name}."
+            def nodeVersionStdout = new ByteArrayOutputStream()
+            def nodeVersionResult = exec {
+                commandLine 'node', '-p', 'process.versions.node.split(".")[0]'
+                standardOutput = nodeVersionStdout
+            }
+            if (nodeVersionResult.exitValue != 0) {
+                throw new GradleException("Failed to get node version: ${nodeVersionResult.errorOutput}")
+            }
+            if (nodeVersionStdout.toString().trim() != "${_nodeVersionRequired}") {
+                throw new GradleException("nodejs-mobile-react-native requires Node.js version ${_nodeVersionRequired}, but found ${nodeVersionStdout.toString().trim()}")
+            }
             inputs.file "${rootProject.buildDir}/nodejs-native-assets-temp-build/nodejs-native-assets-${abi_name}/copy.timestamp"
             outputs.dir "${rootProject.buildDir}/nodejs-native-assets-temp-build/nodejs-native-assets-${abi_name}/nodejs-project/"
             workingDir "${rootProject.buildDir}/nodejs-native-assets-temp-build/nodejs-native-assets-${abi_name}/nodejs-project/"
-            commandLine npmCommandName, '--verbose', 'rebuild', '--build-from-source'
-            environment ('npm_config_node_engine', 'v8' )
-            environment ('npm_config_nodedir', "${project.projectDir}/libnode/" )
+
             String npm_gyp_path_to_use; // Check common paths for nodejs-mobile-gyp
             if ( file("${project.projectDir}/../../nodejs-mobile-gyp/bin/node-gyp.js").exists() ) {
                 npm_gyp_path_to_use = "${project.projectDir}/../../nodejs-mobile-gyp/bin/node-gyp.js";
             } else {
                 npm_gyp_path_to_use = "${project.projectDir}/../node_modules/nodejs-mobile-gyp/bin/node-gyp.js";
             }
+
+            environment ('npm_config_node_engine', 'v8' )
+            environment ('npm_config_nodedir', "${project.projectDir}/libnode/" )
             environment ('npm_config_node_gyp', npm_gyp_path_to_use )
             environment ('npm_config_arch', temp_arch)
             environment ('npm_config_platform', 'android')
             environment ('npm_config_format', 'make-android')
+            environment ('PROJECT_DIR', "${rootProject.projectDir}")
+            environment ('NODEJS_MOBILE_GYP', npm_gyp_path_to_use)
 
             // Adds the original project .bin to the path. It's a workaround
             // to correctly build some modules that depend on symlinked modules,
@@ -397,13 +450,16 @@ if ("1".equals(shouldRebuildNativeModules)) {
             environment ("CARGO_TARGET_${cargo_target_triple}_AR", "${npm_toolchain_ar}")
             environment ("CARGO_TARGET_${cargo_target_triple}_LINKER", "${npm_toolchain_link}")
 
-            environment ('TOOLCHAIN',"${toolchain_path}")
-            environment ('AR',"${npm_toolchain_ar}")
-            environment ('CC',"${npm_toolchain_cc}")
-            environment ('CXX',"${npm_toolchain_cxx}")
-            environment ('LINK',"${npm_toolchain_link}")
-            environment ('GYP_DEFINES',"${npm_gyp_defines}")
+            environment ('TOOLCHAIN', "${toolchain_path}")
+            environment ('AR', "${npm_toolchain_ar}")
+            environment ('CC', "${npm_toolchain_cc}")
+            environment ('CXX', "${npm_toolchain_cxx}")
+            environment ('LINK', "${npm_toolchain_link}")
+            environment ('GYP_DEFINES', "${npm_gyp_defines}")
+
+            commandLine npmCommandName, '--verbose', '--foreground-scripts', 'rebuild', '--build-from-source'
         }
+
         task "CopyBuiltNpmAssets${abi_name}" (type:Sync) {
             dependsOn "BuildNpmModules${abi_name}"
             description = "Copying node assets with build native modules for ${abi_name}."
