@@ -635,7 +635,7 @@
               'CLANG_CXX_LIBRARY': 'libc++',
             },
           }],
-          ['target_arch=="x64" or target_arch=="ia32"', {
+          ['target_arch=="x64" or target_arch=="ia32" or simulator=="true"', {
             'xcode_settings': { 'SDKROOT': 'iphonesimulator' },
           }, {
             'xcode_settings': { 'SDKROOT': 'iphoneos', 'ENABLE_BITCODE': 'YES' },
