@@ -1,4 +1,6 @@
 declare module "nodejs-mobile-react-native" {
+  import { EmitterSubscription } from "react-native"
+
   export interface NodeJs {
     /**
      * Starts the nodejs-mobile runtime thread with a file inside the nodejs-project directory
@@ -28,7 +30,7 @@ declare module "nodejs-mobile-react-native" {
      * and deserialized with JSON.parse of the type: `boolean`, `number`, `string`, `object`, or `array`
      * @param context
      */
-    addListener: (event: string, callback: ChannelCallback, context?: any) => void;
+    addListener: (event: string, callback: ChannelCallback, context?: any) => EmitterSubscription;
     /**
      * Removes the listener for the user-defined events raised from the nodejs-mobile side
      * @param event 
@@ -36,7 +38,7 @@ declare module "nodejs-mobile-react-native" {
      * and deserialized with JSON.parse of the type: `boolean`, `number`, `string`, `object`, or `array`
      * @param context
      */
-    removeListener: (event: string, callback: ChannelCallback, context?: any) => void;
+    remove: (event: string, callback: ChannelCallback, context?: any) => void;
     /**
      * Raises a user-defined event on the nodejs-mobile side
      * - accepts any JS type that can be serialized with JSON.stringify and deserialized with JSON.parse

@@ -107,7 +107,7 @@ const startWithScript=function(script, options) {
  * The channelName field is the channel name.
  * The message field is the data.
  */
-NativeAppEventEmitter.addListener("nodejs-mobile-react-native-message",
+const addListener = NativeAppEventEmitter.addListener("nodejs-mobile-react-native-message",
   (e) => {
     if (channels[e.channelName]) {
       channels[e.channelName].processData(e.message);
@@ -128,6 +128,7 @@ const export_object = {
   start: start,
   startWithArgs: startWithArgs,
   startWithScript: startWithScript,
+  addListener,
   channel: eventChannel
 };
 
