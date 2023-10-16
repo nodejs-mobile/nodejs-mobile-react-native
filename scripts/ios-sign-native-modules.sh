@@ -8,7 +8,7 @@ if [ -f ./.xcode.env.local ]; then
   source "./.xcode.env.local";
 fi
 
-DESIRED_NODE_VERSION="16"
+DESIRED_NODE_VERSION="18"
 CURRENT_NODE_VERSION="$(node -p "process.versions.node.split('.')[0]")"
 if [ "$CURRENT_NODE_VERSION" -ne "$DESIRED_NODE_VERSION" ]; then
   echo "nodejs-mobile-react-native's ios-build-native-modules script requires \

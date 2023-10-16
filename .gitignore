@@ -11,7 +11,7 @@ yarn-error.log
 
 # Large binaries
 android/libnode/bin/*/libnode.so
-ios/NodeMobile.framework/NodeMobile
+ios/NodeMobile.xcframework/**/NodeMobile
 
 # Xcode
 #

@@ -11,13 +11,13 @@ buildscript {
 
 apply plugin: 'com.android.library'
 
-def _nodeTargetSdkVersion = ((rootProject?.ext?.properties?.targetSdkVersion) ?: 22)
-def _nodeMinSdkVersion = ((rootProject?.ext?.properties?.minSdkVersion) ?: 16)
+def _nodeTargetSdkVersion = ((rootProject?.ext?.properties?.targetSdkVersion) ?: 30)
+def _nodeMinSdkVersion = ((rootProject?.ext?.properties?.minSdkVersion) ?: 24)
 def _compileNativeModulesSdkVersion = _nodeMinSdkVersion;
-def _nodeVersionRequired = 16
-if (_compileNativeModulesSdkVersion<21) {
-    // 21 is the minimum sdk version Node is built with.
-    _compileNativeModulesSdkVersion=21;
+def _nodeVersionRequired = 18
+if (_compileNativeModulesSdkVersion<24) {
+    // 24 is the minimum sdk version Node is built with.
+    _compileNativeModulesSdkVersion=24;
 }
 def DoesAppAlreadyDefineWantedSTL() {
     // Since react-native 0.59.0, the Application already defines libc++_shared as the APP_STL.
@@ -49,8 +49,8 @@ def DoesAppAlreadyDefineWantedSTL() {
 def _isCorrectSTLDefinedByApp = DoesAppAlreadyDefineWantedSTL()
 
 android {
-    compileSdkVersion ((rootProject?.ext?.properties?.compileSdkVersion) ?: 23)
-    buildToolsVersion ((rootProject?.ext?.properties?.buildToolsVersion) ?: "23.0.1")
+    compileSdkVersion ((rootProject?.ext?.properties?.compileSdkVersion) ?: 24)
+    buildToolsVersion ((rootProject?.ext?.properties?.buildToolsVersion) ?: "30.0.2")
 
     ndkVersion ((rootProject?.ext?.ndkVersion) ?: "24.0.8215888")
 
@@ -239,8 +239,8 @@ if ("1".equals(shouldRebuildNativeModules)) {
 
     def nativeModulesABIs = android.defaultConfig.ndk.abiFilters;
     if (nativeModulesABIs == null) {
-        // No abiFilter is defined for the build. Build native modules for eevery architecture.
-        nativeModulesABIs = ["armeabi-v7a", "x86", "arm64-v8a", "x86_64"] as Set<String>;
+        // No abiFilter is defined for the build. Build native modules for every architecture.
+        nativeModulesABIs = ["armeabi-v7a", "arm64-v8a", "x86_64"] as Set<String>;
     }
 
     nativeModulesABIs.each { abi_name ->
@@ -271,13 +271,6 @@ if ("1".equals(shouldRebuildNativeModules)) {
                 temp_binutils_prefix = "arm-linux-androideabi"
                 temp_compiler_prefix = "armv7a-linux-androideabi${_compileNativeModulesSdkVersion}"
                 cargo_build_target = 'arm-linux-androideabi'
-                break
-            case 'x86':
-                temp_dest_cpu = 'ia32'
-                temp_v8_arch = 'ia32'
-                temp_binutils_prefix = "i686-linux-android"
-                temp_compiler_prefix = "i686-linux-android${_compileNativeModulesSdkVersion}"
-                cargo_build_target = "i686-linux-android"
                 break
             case 'x86_64':
                 temp_dest_cpu = 'x64'
