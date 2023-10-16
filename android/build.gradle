@@ -306,6 +306,7 @@ if ("1".equals(shouldRebuildNativeModules)) {
         String npm_toolchain_cc = "${toolchain_path}/bin/${temp_compiler_prefix}-clang"
         String npm_toolchain_cxx = "${toolchain_path}/bin/${temp_compiler_prefix}-clang++"
         String npm_toolchain_link = "${toolchain_path}/bin/${temp_compiler_prefix}-clang++"
+        String npm_toolchain_ranlib = "${toolchain_path}/bin/llvm-ranlib"
         String cargo_target_triple = cargo_build_target.toUpperCase().replaceAll('-', '_')
 
         String npm_gyp_defines = "target_arch=${temp_arch}"
@@ -448,6 +449,7 @@ if ("1".equals(shouldRebuildNativeModules)) {
             environment ('CC', "${npm_toolchain_cc}")
             environment ('CXX', "${npm_toolchain_cxx}")
             environment ('LINK', "${npm_toolchain_link}")
+            environment ('RANLIB', "${npm_toolchain_ranlib}")
             environment ('GYP_DEFINES', "${npm_gyp_defines}")
 
             commandLine npmCommandName, '--verbose', '--foreground-scripts', 'rebuild', '--build-from-source'
