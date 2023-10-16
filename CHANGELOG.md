@@ -6,6 +6,7 @@
 </tr>
 <tr>
 <td>
+<a href="#18.17.1">18.17.1</a><br/>
 <a href="#16.17.10">16.17.10</a><br/>
 <a href="#16.17.9">16.17.9</a><br/>
 <a href="#16.17.8">16.17.8</a><br/>
@@ -46,8 +47,20 @@
 </tr>
 </table>
 
+<a id="18.17.1"></a>
+## 2023-03-23, Version 18.17.1 (Current)
+
+### Notable Changes
+
+* Update `nodejs-mobile` binaries to `v18.17.1`
+* (Host) Node.js version 16 required when building native modules on Android and iOS
+* iOS >=13.0 required as deployment target
+* Android >=7.0 (SDK 24) required as `minSdkVersion`
+* Android NDK 24 or higher required when building native modules
+
+
 <a id="16.17.10"></a>
-## 2023-03-23, Version 16.17.10 (Current)
+## 2023-03-23, Version 16.17.10
 
 ### Notable Changes
 
