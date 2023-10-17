@@ -71,18 +71,24 @@ if [ "$PLATFORM_PREFERRED_ARCH" == "arm64" ]; then
 else
   PREBUILD_ARCH="x64"
 fi
+if [ "$PLATFORM_NAME" == "iphonesimulator" ] && [ "$NATIVE_ARCH" == "arm64" ]; then
+  SUFFIX="-simulator"
+  PREBUILD_ARCH="arm64"
+else
+  SUFFIX=""
+fi
 find -E "$NODEPROJ" \
-    ! -regex ".*/prebuilds/ios-$PREBUILD_ARCH" \
+    ! -regex ".*/prebuilds/ios-$PREBUILD_ARCH$SUFFIX" \
     -regex '.*/prebuilds/[^/]*$' -type d \
     -prune -exec rm -rf "{}" \;
 find -E "$NODEPROJ" \
-    ! -regex ".*/prebuilds/ios-$PREBUILD_ARCH/.*\.node$" \
+    ! -regex ".*/prebuilds/ios-$PREBUILD_ARCH$SUFFIX/.*\.node$" \
     -name '*.node' -type f \
     -exec rm "{}" \;
 find "$NODEPROJ" \
     -name "*.framework" -type d \
     -prune -exec rm -rf "{}" \;
-for DOT_NODE in `find -E "$NODEPROJ" -regex ".*/prebuilds/ios-$PREBUILD_ARCH/.*\.node$"`; do
+for DOT_NODE in `find -E "$NODEPROJ" -regex ".*/prebuilds/ios-$PREBUILD_ARCH$SUFFIX/.*\.node$"`; do
   preparePrebuiltModule "$DOT_NODE"
 done
 
@@ -104,10 +110,19 @@ fi
 # Rebuild modules with right environment
 NODEJS_HEADERS_DIR="$( cd "$PROJECT_DIR" && cd ../node_modules/nodejs-mobile-react-native/ios/libnode/ && pwd )"
 pushd $NODEPROJ
-if [ "$PLATFORM_NAME" == "iphoneos" ]
-then
+if [ "$PLATFORM_NAME" == "iphoneos" ]; then
   GYP_DEFINES="OS=ios" \
-  CARGO_BUILD_TARGET="aarch64-apple-ios" \
+  CARGO_BUILD_TARGET="aarch64-apple-ios iossim=false" \
+  NODEJS_MOBILE_GYP="$NODEJS_MOBILE_GYP_BIN_FILE" \
+  npm_config_node_gyp="$NODEJS_MOBILE_GYP_BIN_FILE" \
+  npm_config_nodedir="$NODEJS_HEADERS_DIR" \
+  npm_config_platform="ios" \
+  npm_config_format="make-ios" \
+  npm_config_arch="arm64" \
+  npm --verbose --foreground-scripts rebuild --build-from-source
+elif [ "$NATIVE_ARCH" == "arm64" ]; then
+  GYP_DEFINES="OS=ios target_arch=arm64 iossim=true" \
+  CARGO_BUILD_TARGET="aarch64-apple-ios-sim" \
   NODEJS_MOBILE_GYP="$NODEJS_MOBILE_GYP_BIN_FILE" \
   npm_config_node_gyp="$NODEJS_MOBILE_GYP_BIN_FILE" \
   npm_config_nodedir="$NODEJS_HEADERS_DIR" \
@@ -116,7 +131,7 @@ then
   npm_config_arch="arm64" \
   npm --verbose --foreground-scripts rebuild --build-from-source
 else
-  GYP_DEFINES="OS=ios" \
+  GYP_DEFINES="OS=ios target_arch=x64 iossim=true" \
   CARGO_BUILD_TARGET="x86_64-apple-ios" \
   NODEJS_MOBILE_GYP="$NODEJS_MOBILE_GYP_BIN_FILE" \
   npm_config_node_gyp="$NODEJS_MOBILE_GYP_BIN_FILE" \
