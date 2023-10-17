@@ -6,6 +6,7 @@
 </tr>
 <tr>
 <td>
+<a href="#18.17.3">18.17.3</a><br/>
 <a href="#18.17.2">18.17.2</a><br/>
 <a href="#18.17.1">18.17.1</a><br/>
 <a href="#16.17.10">16.17.10</a><br/>
@@ -48,8 +49,16 @@
 </tr>
 </table>
 
+<a id="18.17.3"></a>
+## 2023-10-17, Version 18.17.3 (Current)
+
+### Notable Changes
+
+* ios: support compiling or prebuilding for iOS simulator
+
+
 <a id="18.17.2"></a>
-## 2023-10-16, Version 18.17.2 (Current)
+## 2023-10-16, Version 18.17.2
 
 ### Notable Changes
 
