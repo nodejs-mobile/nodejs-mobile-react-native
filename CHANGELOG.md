@@ -6,6 +6,7 @@
 </tr>
 <tr>
 <td>
+<a href="#18.17.4">18.17.4</a><br/>
 <a href="#18.17.3">18.17.3</a><br/>
 <a href="#18.17.2">18.17.2</a><br/>
 <a href="#18.17.1">18.17.1</a><br/>
@@ -49,8 +50,16 @@
 </tr>
 </table>
 
+<a id="18.17.4"></a>
+## 2023-12-12, Version 18.17.4 (Current)
+
+### Notable Changes
+
+* ios: set native addon iOS MinimumOSVersion to 13
+
+
 <a id="18.17.3"></a>
-## 2023-10-17, Version 18.17.3 (Current)
+## 2023-10-17, Version 18.17.3
 
 ### Notable Changes
 
