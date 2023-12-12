@@ -41,7 +41,7 @@
 	<key>DTXcodeBuild</key>
 	<string>{ENV_XCODE_PRODUCT_BUILD_VERSION}</string>
 	<key>MinimumOSVersion</key>
-	<string>11.0</string>
+	<string>13.0</string>
 	<key>NSHumanReadableCopyright</key>
 	<string></string>
 	<key>UIDeviceFamily</key>
