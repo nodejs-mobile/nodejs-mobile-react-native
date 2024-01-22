@@ -1,5 +1,5 @@
 // #include "node_api.h"
-#include "node.h"
+#include <node.h>
 #include "uv.h"
 #include "rn-bridge.h"
 
