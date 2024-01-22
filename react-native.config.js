@@ -5,7 +5,6 @@ module.exports = {
         sourceDir: './android'
       },
       ios: {
-        project: './ios/RNNodeJsMobile.xcodeproj',
         scriptPhases: [
           {
             name: '[NODEJS MOBILE] Copy Node.js Project files',
