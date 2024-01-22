@@ -1,6 +1,6 @@
 {
   "name": "nodejs-mobile-react-native",
-  "version": "18.17.4",
+  "version": "18.17.5",
   "description": "Node.js for Mobile Apps React Native plugin",
   "main": "index.js",
   "scripts": {
