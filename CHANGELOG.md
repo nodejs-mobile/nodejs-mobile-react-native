@@ -6,6 +6,7 @@
 </tr>
 <tr>
 <td>
+<a href="#18.17.6">18.17.6</a><br/>
 <a href="#18.17.5">18.17.5</a><br/>
 <a href="#18.17.4">18.17.4</a><br/>
 <a href="#18.17.3">18.17.3</a><br/>
@@ -51,8 +52,16 @@
 </tr>
 </table>
 
+<a id="18.17.6"></a>
+## 2024-01-23, Version 18.17.6 (Current)
+
+### Notable Changes
+
+* ios: support React Native 0.73
+
+
 <a id="18.17.5"></a>
-## 2024-01-22, Version 18.17.5 (Current)
+## 2024-01-22, Version 18.17.5
 
 ### Notable Changes
 
