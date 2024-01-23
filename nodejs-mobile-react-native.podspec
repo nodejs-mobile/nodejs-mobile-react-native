@@ -12,12 +12,16 @@ Pod::Spec.new do |s|
   s.homepage     = package['homepage']
   s.platform     = :ios, '13.0'
   s.source_files = 'ios/*.{h,m,mm,hpp,cpp}'
-  s.compiler_flags = '-I$(PODS_TARGET_SRCROOT)/ios/libnode/include/node/'
   s.pod_target_xcconfig = {
     'CLANG_CXX_LANGUAGE_STANDARD' => 'gnu++17',
+    'ENABLE_BITCODE' => 'NO',
+    'USE_HEADERMAP' => 'NO',
+    'ALWAYS_SEARCH_USER_PATHS' => 'NO',
+    'HEADER_SEARCH_PATHS' => '"$(PODS_TARGET_SRCROOT)/ios" "$(PODS_TARGET_SRCROOT)/ios/libnode/include/node"'
+  }
+  s.user_target_xcconfig = {
     'ENABLE_BITCODE' => 'NO'
   }
-  s.user_target_xcconfig = { 'ENABLE_BITCODE' => 'NO' }
   s.ios.vendored_frameworks = 'ios/NodeMobile.xcframework'
   s.static_framework = true
   s.dependency 'React-Core'
