@@ -6,6 +6,7 @@
 </tr>
 <tr>
 <td>
+<a href="#18.17.7">18.17.7</a><br/>
 <a href="#18.17.6">18.17.6</a><br/>
 <a href="#18.17.5">18.17.5</a><br/>
 <a href="#18.17.4">18.17.4</a><br/>
@@ -52,8 +53,16 @@
 </tr>
 </table>
 
+<a id="18.17.7"></a>
+## 2024-02-21, Version 18.17.7 (Current)
+
+### Notable Changes
+
+* plugin: update nodejs-mobile-gyp
+
+
 <a id="18.17.6"></a>
-## 2024-01-23, Version 18.17.6 (Current)
+## 2024-01-23, Version 18.17.6
 
 ### Notable Changes
 
