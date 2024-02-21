@@ -29,7 +29,7 @@
   "dependencies": {
     "mkdirp": "^0.5.1",
     "ncp": "^2.0.0",
-    "nodejs-mobile-gyp": "^0.3.1",
+    "nodejs-mobile-gyp": "^0.4.0",
     "node-gyp-build-mobile": "4.6.0-2",
     "xcode": "^2.0.0"
   }
