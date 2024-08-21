@@ -6,6 +6,7 @@
 </tr>
 <tr>
 <td>
+<a href="#18.17.8">18.17.8</a><br/>
 <a href="#18.17.7">18.17.7</a><br/>
 <a href="#18.17.6">18.17.6</a><br/>
 <a href="#18.17.5">18.17.5</a><br/>
@@ -53,8 +54,16 @@
 </tr>
 </table>
 
+<a id="18.17.8"></a>
+## 2024-08-21, Version 18.17.8 (Current)
+
+### Notable Changes
+
+* android: use mavenCentral in gradle dependencies
+
+
 <a id="18.17.7"></a>
-## 2024-02-21, Version 18.17.7 (Current)
+## 2024-02-21, Version 18.17.7
 
 ### Notable Changes
 
