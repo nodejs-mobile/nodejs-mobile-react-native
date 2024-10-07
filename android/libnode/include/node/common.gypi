@@ -36,7 +36,7 @@
 
     # Reset this number to 0 on major V8 upgrades.
     # Increment by one for each non-official patch applied to deps/v8.
-    'v8_embedder_string': '-node.26',
+    'v8_embedder_string': '-node.37',
 
     ##### V8 defaults for Node.js #####
 
@@ -398,7 +398,7 @@
         'ldflags': [ '-pthread' ],
       }],
       [ 'OS in "linux freebsd openbsd solaris android aix os400 cloudabi"', {
-        'cflags': [ '-Wall', '-Wextra', '-Wno-unused-parameter', ],
+        'cflags': [ '-Wall', '-Wextra', '-Wno-unused-parameter', '-Wno-enum-constexpr-conversion' ],
         'cflags_cc': [ '-fno-rtti', '-fno-exceptions', '-std=gnu++17' ],
         'defines': [ '__STDC_FORMAT_MACROS' ],
         'ldflags': [ '-rdynamic' ],
@@ -411,28 +411,56 @@
             'cflags': [ '-I/usr/local/include' ],
             'ldflags': [ '-Wl,-z,wxneeded' ],
           }],
+          ['_toolset=="host"', {
+            'conditions': [
+              [ 'host_arch=="ia32"', {
+                'cflags': [ '-m32' ],
+                'ldflags': [ '-m32' ],
+              }],
+              [ 'host_arch=="x64"', {
+                'cflags': [ '-m64' ],
+                'ldflags': [ '-m64' ],
+              }],
+              [ 'host_arch=="ppc" and OS not in "aix os400"', {
+                'cflags': [ '-m32' ],
+                'ldflags': [ '-m32' ],
+              }],
+              [ 'host_arch=="ppc64" and OS not in "aix os400"', {
+                'cflags': [ '-m64', '-mminimal-toc' ],
+                'ldflags': [ '-m64' ],
+              }],
+              [ 'host_arch=="s390x" and OS=="linux"', {
+                'cflags': [ '-m64', '-march=z196' ],
+                'ldflags': [ '-m64', '-march=z196' ],
+              }],
+            ],
+          }],
+          ['_toolset=="target"', {
+            'conditions': [
+              [ 'target_arch=="ia32"', {
+                'cflags': [ '-m32' ],
+                'ldflags': [ '-m32' ],
+              }],
+              [ 'target_arch=="x64"', {
+                'cflags': [ '-m64' ],
+                'ldflags': [ '-m64' ],
+              }],
+              [ 'target_arch=="ppc" and OS not in "aix os400"', {
+                'cflags': [ '-m32' ],
+                'ldflags': [ '-m32' ],
+              }],
+              [ 'target_arch=="ppc64" and OS not in "aix os400"', {
+                'cflags': [ '-m64', '-mminimal-toc' ],
+                'ldflags': [ '-m64' ],
+              }],
+              [ 'target_arch=="s390x" and OS=="linux"', {
+                'cflags': [ '-m64', '-march=z196' ],
+                'ldflags': [ '-m64', '-march=z196' ],
+              }],
+            ],
+          }],
         ],
         'conditions': [
-          [ 'target_arch=="ia32"', {
-            'cflags': [ '-m32' ],
-            'ldflags': [ '-m32' ],
-          }],
-          [ 'target_arch=="x64"', {
-            'cflags': [ '-m64' ],
-            'ldflags': [ '-m64' ],
-          }],
-          [ 'target_arch=="ppc" and OS not in "aix os400"', {
-            'cflags': [ '-m32' ],
-            'ldflags': [ '-m32' ],
-          }],
-          [ 'target_arch=="ppc64" and OS not in "aix os400"', {
-            'cflags': [ '-m64', '-mminimal-toc' ],
-            'ldflags': [ '-m64' ],
-          }],
-          [ 'target_arch=="s390x" and OS=="linux"', {
-            'cflags': [ '-m64', '-march=z196' ],
-            'ldflags': [ '-m64', '-march=z196' ],
-          }],
           [ 'OS=="solaris"', {
             'cflags': [ '-pthreads' ],
             'ldflags': [ '-pthreads' ],
@@ -583,6 +611,7 @@
             '-Wendif-labels',
             '-W',
             '-Wno-unused-parameter',
+            '-Wno-enum-constexpr-conversion',
           ],
         },
         'target_conditions': [
