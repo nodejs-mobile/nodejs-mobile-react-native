@@ -6,6 +6,7 @@
 </tr>
 <tr>
 <td>
+<a href="#18.20.4">18.20.4</a><br/>
 <a href="#18.17.8">18.17.8</a><br/>
 <a href="#18.17.7">18.17.7</a><br/>
 <a href="#18.17.6">18.17.6</a><br/>
@@ -54,8 +55,16 @@
 </tr>
 </table>
 
+<a id="18.20.4"></a>
+## 2024-10-07, Version 18.20.4 (Current)
+
+### Notable Changes
+
+* Update `nodejs-mobile` binaries to `v18.20.4`
+
+
 <a id="18.17.8"></a>
-## 2024-08-21, Version 18.17.8 (Current)
+## 2024-08-21, Version 18.17.8
 
 ### Notable Changes
 
