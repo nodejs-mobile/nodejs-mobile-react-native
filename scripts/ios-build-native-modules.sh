@@ -111,7 +111,7 @@ fi
 NODEJS_HEADERS_DIR="$( cd "$PROJECT_DIR" && cd ../node_modules/nodejs-mobile-react-native/ios/libnode/ && pwd )"
 pushd $NODEPROJ
 if [ "$PLATFORM_NAME" == "iphoneos" ]; then
-  GYP_DEFINES="OS=ios" \
+  GYP_DEFINES="OS=ios target_arch=arm64 iossim=false" \
   CARGO_BUILD_TARGET="aarch64-apple-ios iossim=false" \
   NODEJS_MOBILE_GYP="$NODEJS_MOBILE_GYP_BIN_FILE" \
   npm_config_node_gyp="$NODEJS_MOBILE_GYP_BIN_FILE" \
