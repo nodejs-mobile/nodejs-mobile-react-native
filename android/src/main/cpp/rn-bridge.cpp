@@ -62,35 +62,48 @@ public:
     // Add a new message to the channel's queue and notify libuv to
     // call us back to do the actual message delivery.
     void queueMessage(char* msg) {
+        bool should_notify = false;
+        
         this->queueMutex.lock();
+        bool was_empty = this->messageQueue.empty();
         this->messageQueue.push(msg);
+        // Only notify libuv if queue was empty (no pending callback)
+        should_notify = was_empty && initialized;
         this->queueMutex.unlock();
 
-        if (initialized) {
+        // Batch optimization: only send async notification if queue was empty
+        // This prevents multiple uv_async_send calls for rapid message bursts
+        if (should_notify) {
             uv_async_send(this->queue_uv_handle);
         }
     };
 
-    // Process one message at the time, to simplify synchronization between
-    // threads and minimize lock retention.
+    // Process messages in batches to reduce libuv callback overhead
+    // and improve throughput for high-frequency messaging
     void flushQueue() {
-        char* message = nullptr;
-        bool empty = true;
+        static constexpr int MAX_BATCH_SIZE = 8;  // Process up to 8 messages per callback
+        char* messages[MAX_BATCH_SIZE];
+        int batch_count = 0;
+        bool has_more = false;
 
+        // Extract batch of messages under lock
         this->queueMutex.lock();
-        if (!(this->messageQueue.empty())) {
-            message = this->messageQueue.front();
+        while (batch_count < MAX_BATCH_SIZE && !this->messageQueue.empty()) {
+            messages[batch_count] = this->messageQueue.front();
             this->messageQueue.pop();
-            empty = this->messageQueue.empty();
+            batch_count++;
         }
+        has_more = !this->messageQueue.empty();
         this->queueMutex.unlock();
 
-        if (message != nullptr) {
-            this->invokeNodeListener(message);
-            free(message);
+        // Process batch outside of lock to minimize lock contention
+        for (int i = 0; i < batch_count; i++) {
+            this->invokeNodeListener(messages[i]);
+            free(messages[i]);
         }
 
-        if (!empty) {
+        // Schedule next callback only if more messages remain
+        if (has_more) {
             uv_async_send(this->queue_uv_handle);
         }
     };

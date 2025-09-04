@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android"],
+  "apple": {
+    "modules": ["RNNodeJsMobileModule"]
+  },
+  "android": {
+    "modules": ["com.nodejsmobile.reactnative.RNNodeJsMobileModule"]
+  }
+}

@@ -2,8 +2,19 @@
   "name": "nodejs-mobile-react-native",
   "version": "18.20.4",
   "description": "Node.js for Mobile Apps React Native plugin",
-  "main": "index.js",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
   "scripts": {
+    "build": "expo-module build",
+    "clean": "expo-module clean",
+    "lint": "expo-module lint",
+    "test": "expo-module test",
+    "typecheck": "expo-module typecheck",
+    "prepare": "expo-module prepare",
+    "prepublishOnly": "expo-module prepublishOnly",
+    "expo-module": "expo-module",
+    "open:ios": "xed example/ios",
+    "open:android": "open -a \"Android Studio\" example/android",
     "postinstall": "node scripts/create-node-structure.js"
   },
   "keywords": [
@@ -24,13 +35,28 @@
     "url": "https://github.com/nodejs-mobile/nodejs-mobile/issues"
   },
   "peerDependencies": {
-    "react-native": ">=0.60.0"
+    "expo": "*",
+    "react": "*",
+    "react-native": "*"
   },
   "dependencies": {
     "mkdirp": "^0.5.1",
     "ncp": "^2.0.0",
-    "nodejs-mobile-gyp": "^0.4.0",
     "node-gyp-build-mobile": "4.6.0-2",
+    "nodejs-mobile-gyp": "^0.4.0",
     "xcode": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/react": "^19.1.10",
+    "expo": "^53.0.20",
+    "expo-module-scripts": "^4.1.10",
+    "jest": "~29.7.0",
+    "jest-expo": "~53.0.9",
+    "react-native": "^0.79.6",
+    "typescript": "^5.9.2"
+  },
+  "jest": {
+    "preset": "jest-expo"
   }
 }

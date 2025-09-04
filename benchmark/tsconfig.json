@@ -1,0 +1,10 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "nodejs-mobile-react-native": ["../src/index"],
+      "nodejs-mobile-react-native/*": ["../src/*"]
+    }
+  }
+}

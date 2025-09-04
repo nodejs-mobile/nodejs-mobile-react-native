@@ -1,0 +1,14 @@
+{
+  "expo": {
+    "name": "nodejs-mobile-react-native-benchmark",
+    "slug": "nodejs-mobile-react-native-benchmark",
+    "version": "1.0.0",
+    "android": {
+      "package": "com.nodejsmobilereactnative.benchmark"
+    },
+    "ios": {
+      "bundleIdentifier": "com.nodejsmobilereactnative.benchmark"
+    },
+    "newArchEnabled": true
+  }
+}
